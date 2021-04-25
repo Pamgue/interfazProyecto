@@ -12,7 +12,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
-
+import { DasbhoardComponent } from './dasbhoard/dasbhoard.component';
+import { ExpansionComponent } from './dashboard/expansion/expansion.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -22,12 +25,16 @@ import { ComponentsModule } from './components/components.module';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTableModule,
+    MatButtonModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    DasbhoardComponent,
+    ExpansionComponent
   ],
   providers: [],
   bootstrap: [AppComponent]

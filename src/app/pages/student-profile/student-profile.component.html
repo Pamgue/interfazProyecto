@@ -1,0 +1,395 @@
+<div
+  class="header pb-5 pt-5 pt-lg-5 d-flex align-items-center"
+  style="
+    min-height: 300px;
+    background-image: url(assets/img/theme/profile-cover.jpg);
+    background-size: cover;
+    background-position: center top;
+  "
+>
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">Nombre del estudiante</h1>
+        <p class="text-white mt-0 mb-5">Id</p>
+        <a href="#!" class="btn btn-info">Edit profile</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="row" style="margin-bottom: 2rem">
+    <div class="col">
+      <ngb-accordion
+        class="acordion"
+        #acc="ngbAccordion"
+        activeIds="ngb-panel-0"
+        [collapsed]="false"
+      >
+        <ngb-panel title="Mostrar Filtro" class="bg-transparent">
+          <ng-template ngbPanelContent class="acordion bg-transparent">
+            <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
+              <div class="col-2 bg-transparent">
+                <div ngbDropdown class="d-inline-block">
+                  <button
+                    class="btn btn-outline-primary"
+                    id="dropdownBasic1"
+                    ngbDropdownToggle
+                  >
+                    Etiqueta
+                  </button>
+                  <div
+                    ngbDropdownMenu
+                    aria-labelledby="dropdownBasic1"
+                    class="col"
+                  >
+                    <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
+                      Action - 1
+                    </button>
+                    <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                      Action - 2
+                    </button>
+                    <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                      Action - 3
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div ngbDropdown class="col-2 d-inline-block">
+                <button
+                  class="btn btn-outline-primary"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                >
+                  Etiqueta
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
+                    Action - 1
+                  </button>
+                  <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                    Action - 2
+                  </button>
+                  <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                    Action - 3
+                  </button>
+                </div>
+              </div>
+              <div class="col-2 d-flex flex-column bg-transparent">
+                <button
+                  class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
+                  type="button"
+                  (click)="updateLabel('etiquetado')"
+                >
+                  <span class="btn-inner--text">Filtrar</span>
+                </button>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 2rem">
+    <div class="col-9 order-3" style="padding-right: 0  !important; right: -3rem; padding-left: 0 !important; width: 105%;  ">
+      <div class="container-fluid mt--7" style="padding-left: 0  !important; width: 100%; ">
+        <!-- Table -->
+        <div class="row">
+          <div class="col"  style="margin-top: 6rem">
+            <div class="card shadow">
+              <div class="card-header border-0">
+                <h3 class="mb-0">Tabla de problemas</h3>
+              </div>
+              <div class="table-responsive">
+                <table class="table align-items-center table-flush">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Nombre del Juez</th>
+                      <th scope="col">Etiqueta</th>
+                      <th scope="col">Fecha de creación</th>
+                      <th scope="col">Comentarios</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <div class="media-body">
+                            <span class="mb-0 text-sm">2018132551</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>Nombre Juez</td>
+                      <td>Etiqueta</td>
+                      <td>10/04/2021</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Curabitur sed efficitur sem, ut lobortis sapien. In
+                        velit magna, vulputate ut.
+                      </td>
+                      <td class="text-right">
+                        <div ngbDropdown placement="bottom-right">
+                          <a
+                            class="btn btn-sm btn-icon-only text-light"
+                            ngbDropdownToggle
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div
+                            ngbDropdownMenu
+                            class="dropdown-menu-right dropdown-menu-arrow"
+                          >
+                            <a class="dropdown-item" href="javascript:void(0)"
+                              >Editar</a
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <div class="media-body">
+                            <span class="mb-0 text-sm">2018132551</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>Nombre Juez</td>
+                      <td>Etiqueta</td>
+                      <td>10/04/2021</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Curabitur sed efficitur sem, ut lobortis sapien. In
+                        velit magna, vulputate ut.
+                      </td>
+                      <td class="text-right">
+                        <div ngbDropdown placement="bottom-right">
+                          <a
+                            class="btn btn-sm btn-icon-only text-light"
+                            ngbDropdownToggle
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div
+                            ngbDropdownMenu
+                            class="dropdown-menu-right dropdown-menu-arrow"
+                          >
+                            <a class="dropdown-item" href="javascript:void(0)"
+                              >Editar</a
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <div class="media-body">
+                            <span class="mb-0 text-sm">2018132551</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>Nombre Juez</td>
+                      <td>Etiqueta</td>
+                      <td>10/04/2021</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Curabitur sed efficitur sem, ut lobortis sapien. In
+                        velit magna, vulputate ut.
+                      </td>
+                      <td class="text-right">
+                        <div ngbDropdown placement="bottom-right">
+                          <a
+                            class="btn btn-sm btn-icon-only text-light"
+                            ngbDropdownToggle
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div
+                            ngbDropdownMenu
+                            class="dropdown-menu-right dropdown-menu-arrow"
+                          >
+                            <a class="dropdown-item" href="javascript:void(0)"
+                              >Editar</a
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <div class="media-body">
+                            <span class="mb-0 text-sm">2018132551</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>Nombre Juez</td>
+                      <td>Etiqueta</td>
+                      <td>10/04/2021</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Curabitur sed efficitur sem, ut lobortis sapien. In
+                        velit magna, vulputate ut.
+                      </td>
+                      <td class="text-right">
+                        <div ngbDropdown placement="bottom-right">
+                          <a
+                            class="btn btn-sm btn-icon-only text-light"
+                            ngbDropdownToggle
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div
+                            ngbDropdownMenu
+                            class="dropdown-menu-right dropdown-menu-arrow"
+                          >
+                            <a class="dropdown-item" href="javascript:void(0)"
+                              >Editar</a
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">
+                        <div class="media align-items-center">
+                          <div class="media-body">
+                            <span class="mb-0 text-sm">2018132551</span>
+                          </div>
+                        </div>
+                      </th>
+                      <td>Nombre Juez</td>
+                      <td>Etiqueta</td>
+                      <td>10/04/2021</td>
+                      <td>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                        Curabitur sed efficitur sem, ut lobortis sapien. In
+                        velit magna, vulputate ut.
+                      </td>
+                      <td class="text-right">
+                        <div ngbDropdown placement="bottom-right">
+                          <a
+                            class="btn btn-sm btn-icon-only text-light"
+                            ngbDropdownToggle
+                          >
+                            <i class="fas fa-ellipsis-v"></i>
+                          </a>
+                          <div
+                            ngbDropdownMenu
+                            class="dropdown-menu-right dropdown-menu-arrow"
+                          >
+                            <a class="dropdown-item" href="javascript:void(0)"
+                              >Editar</a
+                            >
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="card-footer py-4">
+                <nav aria-label="...">
+                  <ul class="pagination justify-content-end mb-0">
+                    <li class="page-item disabled">
+                      <a
+                        class="page-link"
+                        href="javascript:void(0)"
+                        tabindex="-1"
+                      >
+                        <i class="fas fa-angle-left"></i>
+                        <span class="sr-only">Previous</span>
+                      </a>
+                    </li>
+                    <li class="page-item active">
+                      <a class="page-link" href="javascript:void(0)">1</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript:void(0)"
+                        >2 <span class="sr-only">(current)</span></a
+                      >
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript:void(0)">3</a>
+                    </li>
+                    <li class="page-item">
+                      <a class="page-link" href="javascript:void(0)">
+                        <i class="fas fa-angle-right"></i>
+                        <span class="sr-only">Next</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-2 order-xl-2 mb-5 mb-xl-0" style="left: 1rem">
+      <div class="card card-profile shadow">
+        <h1 class="text-center">Usuarios</h1>
+        <div class="card-body pt-0 pt-md-4">
+          <div class="text-center">
+            <div class="row">
+              <div class="col-5">
+                <p>Juez#1</p>
+              </div>
+              <div class="col-6 userName">
+                <input
+                  id="typeahead-basic"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="model"
+                  [ngbTypeahead]="search"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <p>Juez#2</p>
+              </div>
+              <div class="col-6 userName">
+                <input
+                  id="typeahead-basic"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="model"
+                  [ngbTypeahead]="search"
+                />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <p>Juez#3</p>
+              </div>
+              <div class="col-6 userName">
+                <input
+                  id="typeahead-basic"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="model"
+                  [ngbTypeahead]="search"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 2rem; flex-direction: row-reverse; margin-right: 1rem; padding-right: 6rem;">
+    <div class="saveButtons" style="left: 90%; ">
+      <button type="button" class="btn btn-outline-default saveButtons">Cancelar</button>
+      <button type="button" class="btn btn-outline-primary saveButtons">Guardar</button>
+    </div>
+
+  </div>
+</div>

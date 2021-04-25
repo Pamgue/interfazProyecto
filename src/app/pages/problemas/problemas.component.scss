@@ -1,0 +1,37 @@
+.buttonfilter {
+  margin-bottom: 2rem;
+}
+.dropdown {
+  @extend .buttonfilter;
+  color: gray;
+  border-color: gray;
+}
+.acordions {
+  background: transparent !important;
+  margin-bottom: 7rem;
+  
+
+  .card {
+    background-color: transparent !important;
+  }
+}
+
+.recargar{
+   margin: 1.5rem;
+
+   .button{
+    left: -12%!important;
+    color: gray;
+    border-radius: 100%;
+    width: 6rem;
+    height: 6rem;
+   }
+
+   .saveButtons{
+    margin-right: 2.5rem !important;
+    left: 55% !important;
+    width: 8rem;
+    height: 4rem;
+    top:-2.5rem;
+   }
+}

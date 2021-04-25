@@ -1,0 +1,282 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div
+            class="card card-stats mb-4 mb-xl-0 h-100 d-flex align-items-center justify-content-center"
+          >
+            <button
+              class="btn btn-icon btn-3 btn-primary"
+              type="button"
+              (click)="onClickMe()"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+              <span class="btn-inner--text">Crear Etiqueta</span>
+            </button>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-6">
+          <div
+            class="card card-stats mb-4 mb-xl-0 h-100 d-flex align-items-center justify-content-center"
+          >
+            <button
+              class="btn btn-icon btn-3 btn-primary"
+              type="button"
+              (click)="onClickMe()"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-delete"></i></span>
+              <span class="btn-inner--text">Eliminar etiquetas</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Tabla de etiquetas</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Nombre </th>
+                <th scope="col">Fecha de creación</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <input style="margin-right: 1rem;" type="checkbox" ng-model="checkboxModel.value2"
+                      g-true-value="'YES'" ng-false-value="'NO'">
+                      <span class="mb-0 text-sm">Nombre</span>
+                    </div>
+                  </div>
+                </th>
+                <td>10/04/2021</td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Editar</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <input style="margin-right: 1rem;" type="checkbox" ng-model="checkboxModel.value2"
+                      g-true-value="'YES'" ng-false-value="'NO'">
+                      <span class="mb-0 text-sm">Nombre</span>
+                    </div>
+                  </div>
+                </th>
+                <td>10/04/2021</td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Editar</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <input style="margin-right: 1rem;" type="checkbox" ng-model="checkboxModel.value2"
+                      g-true-value="'YES'" ng-false-value="'NO'">
+                      <span class="mb-0 text-sm">Nombre</span>
+                    </div>
+                  </div>
+                </th>
+                <td>10/04/2021</td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Editar</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <input style="margin-right: 1rem;" type="checkbox" ng-model="checkboxModel.value2"
+                      g-true-value="'YES'" ng-false-value="'NO'">
+                      <span class="mb-0 text-sm">Nombre</span>
+                    </div>
+                  </div>
+                </th>
+                <td>10/04/2021</td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Editar</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <input style="margin-right: 1rem;" type="checkbox" ng-model="checkboxModel.value2"
+                      g-true-value="'YES'" ng-false-value="'NO'">
+                      <span class="mb-0 text-sm">Nombre</span>
+                    </div>
+                  </div>
+                </th>
+                <td>10/04/2021</td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Editar</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">
+                  <div class="media align-items-center">
+                    <div class="media-body">
+                      <input style="margin-right: 1rem;" type="checkbox" ng-model="checkboxModel.value2"
+                      g-true-value="'YES'" ng-false-value="'NO'">
+                      <span class="mb-0 text-sm">Nombre</span>
+                    </div>
+                  </div>
+                </th>
+                <td>10/04/2021</td>
+                <td class="text-right">
+                  <div ngbDropdown placement="bottom-right">
+                    <a
+                      class="btn btn-sm btn-icon-only text-light"
+                      ngbDropdownToggle
+                    >
+                      <i class="fas fa-ellipsis-v"></i>
+                    </a>
+                    <div
+                      ngbDropdownMenu
+                      class="dropdown-menu-right dropdown-menu-arrow"
+                    >
+                      <a class="dropdown-item" href="javascript:void(0)"
+                        >Editar</a
+                      >
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-4">
+          <nav aria-label="...">
+            <ul class="pagination justify-content-end mb-0">
+              <li class="page-item disabled">
+                <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                  <i class="fas fa-angle-left"></i>
+                  <span class="sr-only">Previous</span>
+                </a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="javascript:void(0)">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)"
+                  >2 <span class="sr-only">(current)</span></a
+                >
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">3</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0)">
+                  <i class="fas fa-angle-right"></i>
+                  <span class="sr-only">Next</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div style="width: 100%;">
+  <div class="container">
+    <div class="row" style="width: 100%;">
+      <div class="col-6 saveButtons">
+        <button type="button" class="btn btn-outline-default saveButtons">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary saveButtons">Guardar</button>
+      </div>
+
+    </div>
+  </div>
+</div>

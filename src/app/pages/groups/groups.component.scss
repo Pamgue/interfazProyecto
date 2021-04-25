@@ -1,0 +1,34 @@
+.acordions {
+    background: transparent !important;
+    margin-bottom: 7rem;
+    
+  
+    .card {
+      background-color: transparent !important;
+    }
+  }
+
+  table {
+    width: 100%;
+  }
+  
+  th {
+    text-align: left;
+  }
+  .importCSV{
+    margin: 1.5rem;
+ 
+    .button{
+     //left: -12%!important;
+     color: gray;
+     width: 8rem;
+     height: 4rem;
+
+    }
+ 
+    .saveButtons{
+     width: 8rem;
+     height: 4rem;
+
+    }
+ }  

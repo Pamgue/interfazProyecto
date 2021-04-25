@@ -11,10 +11,10 @@ import {
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  templateUrl: './label.component.html',
+  styleUrls: ['./label.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class LabelComponent implements OnInit {
 
   public datasets: any;
   public data: any;

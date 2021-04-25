@@ -1,0 +1,214 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div
+            class="card card-stats mb-4 mb-xl-0 d-flex flex-row py-3 h-100 align-items-center justify-content-center"
+          >
+            <button
+              class="btn btn-icon btn-3 btn-primary"
+              type="button"
+              (click)="onClickMe()"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+              <span class="btn-inner--text">Crear Grupo</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="acordions card-remove">
+  <ngb-accordion
+    class="acordion"
+    #acc="ngbAccordion"
+    activeIds="ngb-panel-0"
+    [collapsed]="false"
+  >
+    <ngb-panel title="Mostrar Filtro" class="bg-transparent">
+      <ng-template ngbPanelContent class="acordion bg-transparent">
+        <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
+          <div class="col-1 bg-transparent">
+            <div ngbDropdown class="d-inline-block">
+              <button
+                class="btn btn-outline-primary"
+                id="dropdownBasic1"
+                ngbDropdownToggle
+              >
+                Etiqueta
+              </button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
+                  Action - 1
+                </button>
+                <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                  Action - 2
+                </button>
+                <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                  Action - 3
+                </button>
+              </div>
+            </div>
+          </div>
+          <div ngbDropdown class="d-inline-block">
+            <button
+              class="btn btn-outline-primary"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              Etiqueta
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
+                Action - 1
+              </button>
+              <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                Action - 2
+              </button>
+              <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
+                Action - 3
+              </button>
+            </div>
+          </div>
+          <div class="col-2 d-flex flex-column bg-transparent">
+            <button
+              class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
+              type="button"
+              (click)="updateLabel('etiquetado')"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+              <span class="btn-inner--text">Filtrar</span>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Tabla de problemas</h3>
+        </div>
+        <div class="table-responsive">
+          <table
+            class="table align-items-center table-flush"
+            style="border-radius: 2rem"
+          >
+            <thead style="border-width: 0">
+              <th>Name</th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </thead>
+
+            <tbody>
+              <ng-container *ngFor="let data of data1">
+                <tr>
+                  <td   style="font: icon; font-weight: bold;">
+                    <input style="margin-right: 1rem;" type="checkbox" ng-model="checkboxModel.value2"
+                    g-true-value="'YES'" ng-false-value="'NO'">
+
+                   <span (click)="data.expanded = !data.expanded">
+                    {{ data.expanded ? "&and;" : " &or;" }} 
+                   </span> 
+                  </td>
+                  <td style="align-content: center; ">
+                    {{ data.name }} {{ data.expanded ? ":" : "" }} 
+                  </td>
+                  <td></td>
+                  <td></td>
+                  
+                  <td>
+                    <div ngbDropdown placement="bottom-right">
+                      <a
+                        class="btn btn-sm btn-icon-only text-light"
+                        ngbDropdownToggle
+                      >
+                        <i class="fas fa-ellipsis-v"></i>
+                      </a>
+                      <div
+                        ngbDropdownMenu
+                        class="dropdown-menu-right dropdown-menu-arrow"
+                      >
+                        <a class="dropdown-item" href="javascript:void(0)"
+                          >Editar</a
+                        >
+                        <a class="dropdown-item" href="javascript:void(0)"
+                          >Eliminar</a
+                        >
+                        <a class="dropdown-item" href="javascript:void(0)"
+                          >Exportar</a
+                        >
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                <ng-container *ngIf="data.expanded" style="margin-left: 2rem; left:20rem">
+                  <tr *ngFor="let details of findDetails(data)" style="background-color: #F6F6F6;">
+                    <td style="padding-left: 12px">
+                      <p style="text-align: center;">{{ details.datades.name }}</p>
+                    </td>
+                    <td>{{ details.datades.hobbies }}</td>
+                    <td>{{ details.datades.profession }}</td>
+                    <td>Juez</td>
+                    <td>Juez</td>
+      
+                  </tr>
+                </ng-container>
+              </ng-container>
+            </tbody>
+          </table>
+          <div class="card-footer py-4">
+            <nav aria-label="...">
+              <ul class="pagination justify-content-end mb-0">
+                <li class="page-item disabled">
+                  <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                    <i class="fas fa-angle-left"></i>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="javascript:void(0)">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0)"
+                    >2 <span class="sr-only">(current)</span></a
+                  >
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0)">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="javascript:void(0)">
+                    <i class="fas fa-angle-right"></i>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="importCSV" style="width: 100%;">
+  <div class="container-fluid mt--2">
+    <div class="row" >
+      
+      <div class="col-6 saveButtons">
+        <button type="button" class="btn btn-outline-default saveButtons">Cancelar</button>
+        <button type="button" class="btn btn-outline-primary saveButtons">Guardar</button>
+      </div>
+     
+    </div>
+  </div>
+</div>
