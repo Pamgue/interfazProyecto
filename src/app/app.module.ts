@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -36,7 +36,7 @@ import { MatButtonModule} from '@angular/material/button';
     DasbhoardComponent,
     ExpansionComponent
   ],
-  providers: [],
+  providers: [NgbActiveModal ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

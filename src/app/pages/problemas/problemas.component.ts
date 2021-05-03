@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -18,6 +19,12 @@ export class ProblemasComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if (!localStorage.getItem('foo')) { 
+      localStorage.setItem('foo', 'no reload') 
+      location.reload() 
+    } else {
+      localStorage.removeItem('foo') 
+    }
   }
   onClickMe() {
 
