@@ -11,6 +11,12 @@
       "schematics": {
         "@schematics/angular:component": {
           "styleext": "scss"
+        },
+        "@schematics/angular:service": {
+          "path": "src/app/services"
+        },
+        "@schematics/angular:interface": {
+          "path": "src/app/interfaces"
         }
       },
       "architect": {

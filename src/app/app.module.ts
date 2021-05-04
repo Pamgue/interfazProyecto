@@ -17,6 +17,13 @@ import { ExpansionComponent } from './dashboard/expansion/expansion.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule} from '@angular/material/button';
 
+import { GroupsService } from './services/groups.service';
+import { LabelsService } from './services/labels.service';
+import { ProblemsService } from './services/problems.service';
+import { StudentProfileService } from './services/student-profile.service';
+import { StudentsService } from './services/students.service';
+import { UserService } from './services/user.service';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -36,7 +43,15 @@ import { MatButtonModule} from '@angular/material/button';
     DasbhoardComponent,
     ExpansionComponent
   ],
-  providers: [NgbActiveModal ],
+  providers: [
+    NgbActiveModal,
+    GroupsService,
+    LabelsService,
+    ProblemsService,
+    StudentProfileService,
+    StudentsService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

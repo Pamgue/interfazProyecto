@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js';
+import { LabelsService } from '../../services/labels.service';
 
 // core components
 import {
@@ -12,18 +13,21 @@ import {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './label.component.html',
-  styleUrls: ['./label.component.scss']
+  styleUrls: ['./label.component.scss'],
+  providers: [LabelsService]
 })
 export class LabelComponent implements OnInit {
+  constructor (private labelsService: LabelsService){
+  }
 
   public datasets: any;
   public data: any;
   public salesChart;
   public clicked: boolean = true;
   public clicked1: boolean = false;
+  public test: Array<any> = [];
 
   ngOnInit() {
-
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],
       [0, 20, 5, 25, 10, 30, 15, 40, 40]
@@ -49,6 +53,10 @@ export class LabelComponent implements OnInit {
 			options: chartExample1.options,
 			data: chartExample1.data
 		});
+  }
+
+  public onClickMe(){
+    this.labelsService.getTagsNames().subscribe(data => this.test = data, error => console.log("Error: ", error), () => console.log(this.test[0].id));
   }
 
 
