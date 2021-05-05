@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -14,8 +14,7 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { DasbhoardComponent } from './dasbhoard/dasbhoard.component';
 import { ExpansionComponent } from './dashboard/expansion/expansion.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule} from '@angular/material/button';
+import { MaterialModule } from './material/material.module';
 
 import { GroupsService } from './services/groups.service';
 import { LabelsService } from './services/labels.service';
@@ -33,8 +32,8 @@ import { UserService } from './services/user.service';
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    MatTableModule,
-    MatButtonModule
+    MaterialModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,

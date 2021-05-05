@@ -12,6 +12,7 @@ import { StudentComponent } from '../../pages/students/student.component';
 import { StudentProfileComponent} from '../../pages/student-profile/student-profile.component';
 import { ProblemasComponent } from '../../pages/problemas/problemas.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MaterialModule } from '../../material/material.module';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -21,7 +22,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    MaterialModule,
+    ReactiveFormsModule
   ],
   declarations: [
     LabelComponent,

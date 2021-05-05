@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import Chart from 'chart.js';
 import { LabelsService } from '../../services/labels.service';
+import { NgModule } from '@angular/core';
+import { MaterialModule } from '../../material/material.module';
+import {FormControl} from '@angular/forms';
 
-// core components
-import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2
-} from "../../variables/charts";
+@NgModule({
+  imports: [MaterialModule],
+})
 
 @Component({
   selector: 'app-dashboard',
@@ -16,53 +14,27 @@ import {
   styleUrls: ['./label.component.scss'],
   providers: [LabelsService]
 })
+
 export class LabelComponent implements OnInit {
   constructor (private labelsService: LabelsService){
   }
 
-  public datasets: any;
-  public data: any;
-  public salesChart;
-  public clicked: boolean = true;
-  public clicked1: boolean = false;
+  toppings = new FormControl();
+
+  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+
   public test: Array<any> = [];
 
   ngOnInit() {
-    this.datasets = [
-      [0, 20, 10, 30, 15, 40, 20, 60, 60],
-      [0, 20, 5, 25, 10, 30, 15, 40, 40]
-    ];
-    this.data = this.datasets[0];
-
-
-    var chartOrders = document.getElementById('chart-orders');
-
-    parseOptions(Chart, chartOptions());
-
-
-    var ordersChart = new Chart(chartOrders, {
-      type: 'bar',
-      options: chartExample2.options,
-      data: chartExample2.data
-    });
-
-    var chartSales = document.getElementById('chart-sales');
-
-    this.salesChart = new Chart(chartSales, {
-			type: 'line',
-			options: chartExample1.options,
-			data: chartExample1.data
-		});
   }
 
   public onClickMe(){
-    this.labelsService.getTagsNames().subscribe(data => this.test = data, error => console.log("Error: ", error), () => console.log(this.test[0].id));
+    this.labelsService.getTagNames().subscribe(data => this.test = data, error => console.log("Error: ", error), () => console.log(this.test[0].id));
   }
 
 
   public updateOptions() {
-    this.salesChart.data.datasets[0].data = this.data;
-    this.salesChart.update();
+
   }
 
 }
