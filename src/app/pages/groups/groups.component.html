@@ -2,13 +2,12 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
-      <div class="row">
-        <div class="col-xl-3 col-lg-6">
-          <div
-            class="card card-stats mb-4 mb-xl-0 d-flex flex-row py-3 h-100 align-items-center justify-content-center"
-          >
+      <div class="col-12">
+        <div class="card mb-4 mb-xl-3 d-flex flex-row py-4 cardButtons">
+
+          <div class="col-3 d-flex flex-column  middleButtons">
             <button
-              class="btn btn-icon btn-3 btn-primary"
+              class="btn btn-icon btn-2 btn-primary"
               type="button"
               (click)="onClickMe()"
             >
@@ -16,6 +15,7 @@
               <span class="btn-inner--text">Crear Grupo</span>
             </button>
           </div>
+
         </div>
       </div>
     </div>
@@ -23,72 +23,70 @@
 </div>
 <!-- Page content -->
 <div class="acordions card-remove">
-  <ngb-accordion
-    class="acordion"
-    #acc="ngbAccordion"
-    activeIds="ngb-panel-0"
-    [collapsed]="false"
-  >
-    <ngb-panel title="Mostrar Filtro" class="bg-transparent">
-      <ng-template ngbPanelContent class="acordion bg-transparent">
-        <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
-          <div class="col-1 bg-transparent">
-            <div ngbDropdown class="d-inline-block">
-              <button
-                class="btn btn-outline-primary"
-                id="dropdownBasic1"
-                ngbDropdownToggle
-              >
-                Etiqueta
-              </button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
-                  Action - 1
-                </button>
-                <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                  Action - 2
-                </button>
-                <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                  Action - 3
-                </button>
-              </div>
-            </div>
-          </div>
-          <div ngbDropdown class="d-inline-block">
-            <button
-              class="btn btn-outline-primary"
-              id="dropdownBasic1"
-              ngbDropdownToggle
-            >
-              Etiqueta
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
-                Action - 1
-              </button>
-              <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                Action - 2
-              </button>
-              <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                Action - 3
-              </button>
-            </div>
-          </div>
-          <div class="col-2 d-flex flex-column bg-transparent">
-            <button
-              class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
-              type="button"
-              (click)="updateLabel('etiquetado')"
-            >
-              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-              <span class="btn-inner--text">Filtrar</span>
-            </button>
-          </div>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="showPanel"  hideToggle>
+        <mat-panel-title>      <button mat-stroked-button color="primary">
+          Mostrar/Ocultar Filtros
+        </button></mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
+        <div class="col-2 bg-transparent">
+          <mat-form-field appearance="fill">
+            <mat-label>Tags</mat-label>
+            <mat-select [formControl]="tags" multiple>
+              <mat-select-trigger>
+                {{ tags.value ? tags.value[0] : "" }}
+                <span
+                  *ngIf="tags.value?.length > 1"
+                  class="example-additional-selection"
+                >
+                  (+{{ tags.value.length - 1 }}
+                  {{ tags.value?.length === 2 ? "other" : "others" }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let tags of tagsList" [value]="tags">{{
+                tags
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
+        <div class="col-2">
+          <mat-form-field appearance="fill">
+            <mat-label>Groups</mat-label>
+            <mat-select [formControl]="groups" multiple>
+              <mat-select-trigger>
+                {{ groups.value ? groups.value[0] : "" }}
+                <span
+                  *ngIf="groups.value?.length > 1"
+                  class="example-additional-selection"
+                >
+                  (+{{ groups.value.length - 1 }}
+                  {{ groups.value?.length === 2 ? "other" : "others" }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let group of groupsList" [value]="group">{{
+                group
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-2 d-flex flex-column bg-transparent">
+          <button
+            class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
+            type="button"
+            (click)="updateLabel('etiquetado')"
+          >
+            <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+            <span class="btn-inner--text">Filtrar</span>
+          </button>
+        </div>
+      </div>
+      
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
+<!--Tabla-->
 <div class="container-fluid mt--7">
   <div class="row">
     <div class="col">

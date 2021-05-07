@@ -2,389 +2,235 @@
   <div class="container-fluid">
     <div class="header-body">
       <!-- Card stats -->
-      <div class="row">
-        <div class="col-xl-3 col-lg-6">
-          <div class="card card-stats mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
-            <div class="col-5">
-              <div ngbDropdown class="d-inline-block">
-                <button
-                  class="btn btn-outline-primary"
-                  id="dropdownBasic1"
-                  ngbDropdownToggle
-                >
-                  Etiqueta
-                </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
-                    Action - 1
-                  </button>
-                  <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                    Action - 2
-                  </button>
-                  <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                    Action - 3
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div class="col-7 d-flex flex-column">
-              <button
-                class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
-                type="button"
-                (click)="updateLabel('etiquetado')"
-              >
-                <span class="btn-inner--icon"
-                  ><i class="ni ni-fat-add"></i
-                ></span>
-                <span class="btn-inner--text">Etiquetar</span>
-              </button>
-              <button
-                class="btn btn-icon btn-3 btn-primary mr-auto my-2"
-                type="button"
-                (click)="updateLabel('desetiquetado')"
-              >
-                <span class="btn-inner--icon"
-                  ><i class="ni ni-fat-add"></i
-                ></span>
-                <span class="btn-inner--text">Desetiquetar</span>
-              </button>
+      <div class="col-12">
+        <div class="card mb-4 mb-xl-3 d-flex flex-row py-4">
+          <div class="col-2">
+            <div class="d-inline-block">
+              <mat-form-field appearance="fill" class="tagDropdown">
+                <mat-label>Etiquetas</mat-label>
+                <mat-select [formControl]="tags" multiple class="tagDropdown">
+                  <mat-select-trigger class="tagDropdown">
+                    {{ tags.value ? tags.value[0] : "" }}
+                    <span
+                      *ngIf="tags.value?.length > 1"
+                      class="example-additional-selection"
+                    >
+                      (+{{ tags.value.length - 1 }}
+                      {{ tags.value?.length === 2 ? "other" : "others" }})
+                    </span>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let tag of tagsList" [value]="tag">{{
+                    tag
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
-        </div>
-        <div class="col-xl-3 col-lg-6">
-          <div
-            class="card card-stats mb-4 mb-xl-0 h-100 d-flex align-items-center justify-content-center"
-          >
+          <div class="col-2 d-flex flex-column">
             <button
-              class="btn btn-icon btn-3 btn-primary"
+              class="btn btn-icon btn-2 btn-primary mr-auto mb-1"
+              type="button"
+              (click)="updateLabel('etiquetado')"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+              <span class="btn-inner--text">Agrupar</span>
+            </button>
+            <button
+              class="btn btn-icon btn-2 btn-primary mr-auto my-2"
+              type="button"
+              (click)="updateLabel('desetiquetado')"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+              <span class="btn-inner--text">Desagrupar</span>
+            </button>
+          </div>
+          <div class="col-3 d-flex flex-column">
+            <button
+              class="btn btn-icon btn-2 btn-primary"
               type="button"
               (click)="onClickMe()"
             >
               <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-              <span class="btn-inner--text">Agregar problema</span>
+              <span class="btn-inner--text">Agregar estudiante</span>
+            </button>
+          </div>
+          <div class="col-3 d-flex flex-column">
+            <button
+              class="btn btn-icon btn-2 btn-primary"
+              type="button"
+              (click)="onClickMe()"
+            >
+              <span class="btn-inner--icon"
+                ><i class="ni ni-fat-delete"></i
+              ></span>
+              <span class="btn-inner--text">Eliminar estudiante</span>
             </button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </div>
 <!-- Page content -->
 <div class="acordions card-remove">
-  <ngb-accordion
-    class="acordion"
-    #acc="ngbAccordion"
-    activeIds="ngb-panel-0"
-    [collapsed]="false"
-  >
-    <ngb-panel title="Mostrar Filtro" class="bg-transparent">
-      <ng-template ngbPanelContent class="acordion bg-transparent">
-        <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
-          <div class="col-1 bg-transparent">
-            <div ngbDropdown class="d-inline-block">
-              <button
-                class="btn btn-outline-primary"
-                id="dropdownBasic1"
-                ngbDropdownToggle
-              >
-                Etiqueta
-              </button>
-              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
-                  Action - 1
-                </button>
-                <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                  Action - 2
-                </button>
-                <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                  Action - 3
-                </button>
-              </div>
-            </div>
-          </div>
-          <div ngbDropdown class="d-inline-block">
-            <button
-              class="btn btn-outline-primary"
-              id="dropdownBasic1"
-              ngbDropdownToggle
-            >
-              Etiqueta
-            </button>
-            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
-                Action - 1
-              </button>
-              <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                Action - 2
-              </button>
-              <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                Action - 3
-              </button>
-            </div>
-          </div>
-          <div class="col-2 d-flex flex-column bg-transparent">
-            <button
-              class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
-              type="button"
-              (click)="updateLabel('etiquetado')"
-            >
-              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-              <span class="btn-inner--text">Filtrar</span>
-            </button>
-          </div>
-        </div>
-      </ng-template>
-    </ngb-panel>
-  </ngb-accordion>
-</div>
-
-<div class="container-fluid mt--7">
-  <!-- Table -->
-  <div class="row">
-    <div class="col">
-      <div class="card shadow">
-        <div class="card-header border-0">
-          <h3 class="mb-0">Tabla de problemas</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table align-items-center table-flush">
-            <thead class="thead-light">
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nombre del Juez</th>
-                <th scope="col">Etiqueta</th>
-                <th scope="col">Fecha de creación</th>
-                <th scope="col">Comentarios</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">2018132551</span>
-                    </div>
-                  </div>
-                </th>
-                <td>Nombre Juez</td>
-                <td>Etiqueta</td>
-                <td>10/04/2021</td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sed efficitur sem, ut lobortis sapien. In velit
-                  magna, vulputate ut.
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      ngbDropdownToggle
-                    >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right dropdown-menu-arrow"
-                    >
-                      <a class="dropdown-item" href="javascript:void(0)"
-                        >Editar</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">2018132551</span>
-                    </div>
-                  </div>
-                </th>
-                <td>Nombre Juez</td>
-                <td>Etiqueta</td>
-                <td>10/04/2021</td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sed efficitur sem, ut lobortis sapien. In velit
-                  magna, vulputate ut.
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      ngbDropdownToggle
-                    >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right dropdown-menu-arrow"
-                    >
-                      <a class="dropdown-item" href="javascript:void(0)"
-                        >Editar</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">2018132551</span>
-                    </div>
-                  </div>
-                </th>
-                <td>Nombre Juez</td>
-                <td>Etiqueta</td>
-                <td>10/04/2021</td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sed efficitur sem, ut lobortis sapien. In velit
-                  magna, vulputate ut.
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      ngbDropdownToggle
-                    >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right dropdown-menu-arrow"
-                    >
-                      <a class="dropdown-item" href="javascript:void(0)"
-                        >Editar</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">2018132551</span>
-                    </div>
-                  </div>
-                </th>
-                <td>Nombre Juez</td>
-                <td>Etiqueta</td>
-                <td>10/04/2021</td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sed efficitur sem, ut lobortis sapien. In velit
-                  magna, vulputate ut.
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      ngbDropdownToggle
-                    >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right dropdown-menu-arrow"
-                    >
-                      <a class="dropdown-item" href="javascript:void(0)"
-                        >Editar</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">
-                  <div class="media align-items-center">
-                    <div class="media-body">
-                      <span class="mb-0 text-sm">2018132551</span>
-                    </div>
-                  </div>
-                </th>
-                <td>Nombre Juez</td>
-                <td>Etiqueta</td>
-                <td>10/04/2021</td>
-                <td>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Curabitur sed efficitur sem, ut lobortis sapien. In velit
-                  magna, vulputate ut.
-                </td>
-                <td class="text-right">
-                  <div ngbDropdown placement="bottom-right">
-                    <a
-                      class="btn btn-sm btn-icon-only text-light"
-                      ngbDropdownToggle
-                    >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </a>
-                    <div
-                      ngbDropdownMenu
-                      class="dropdown-menu-right dropdown-menu-arrow"
-                    >
-                      <a class="dropdown-item" href="javascript:void(0)"
-                        >Editar</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer py-4">
-          <nav aria-label="...">
-            <ul class="pagination justify-content-end mb-0">
-              <li class="page-item disabled">
-                <a class="page-link" href="javascript:void(0)" tabindex="-1">
-                  <i class="fas fa-angle-left"></i>
-                  <span class="sr-only">Previous</span>
-                </a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="javascript:void(0)">1</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)"
-                  >2 <span class="sr-only">(current)</span></a
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="showPanel" hideToggle>
+        <mat-panel-title>
+          <button mat-stroked-button color="primary">
+            Mostrar/Ocultar Filtros
+          </button></mat-panel-title
+        >
+      </mat-expansion-panel-header>
+      <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
+        <div class="col-2 bg-transparent">
+          <mat-form-field class="tagDropdown" appearance="fill">
+            <mat-label>Tags</mat-label>
+            <mat-select [formControl]="tags" multiple>
+              <mat-select-trigger class="tagDropdown">
+                {{ tags.value ? tags.value[0] : "" }}
+                <span
+                  *ngIf="tags.value?.length > 1"
+                  class="example-additional-selection"
                 >
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">3</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0)">
-                  <i class="fas fa-angle-right"></i>
-                  <span class="sr-only">Next</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
+                  (+{{ tags.value.length - 1 }}
+                  {{ tags.value?.length === 2 ? "other" : "others" }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let tags of tagsList" [value]="tags">{{
+                tags
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-2">
+          <mat-form-field appearance="fill">
+            <mat-label>Groups</mat-label>
+            <mat-select [formControl]="groups" multiple>
+              <mat-select-trigger>
+                {{ groups.value ? groups.value[0] : "" }}
+                <span
+                  *ngIf="groups.value?.length > 1"
+                  class="example-additional-selection"
+                >
+                  (+{{ groups.value.length - 1 }}
+                  {{ groups.value?.length === 2 ? "other" : "others" }})
+                </span>
+              </mat-select-trigger>
+              <mat-option *ngFor="let group of groupsList" [value]="group">{{
+                group
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-2 d-flex flex-column bg-transparent">
+          <button
+            class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
+            type="button"
+            (click)="updateLabel('etiquetado')"
+          >
+            <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+            <span class="btn-inner--text">Filtrar</span>
+          </button>
         </div>
       </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<div class="container-fluid mt--7 table" >
+
+  <div class="card shadow">
+    <div class="card-header border-0">
+      <h3 class="mb-0">Tabla de estudiantes
+        
+      </h3>
     </div>
   </div>
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+    <!-- Position Column -->
+    <ng-container matColumnDef="id">
+      <th class="thead-light  th " mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <td mat-cell *matCellDef="let element"> 
+        <div class="media-body">
+          <input
+            style="margin-right: 1rem"
+            type="checkbox"
+            ng-model="checkboxModel.value2"
+            g-true-value="'YES'"
+            ng-false-value="'NO'"
+          />
+          <span class="mb-0 text-sm">{{element.id}}</span>
+        </div>
+    </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th  class="thead-light th " mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="grupo">
+      <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Grupo </th>
+      <td mat-cell *matCellDef="let element"> {{element.grupo}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="juez">
+      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
+      <td mat-cell *matCellDef="let element"> {{element.juez}} </td>
+    </ng-container>
+    <ng-container matColumnDef="fecha">
+      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+      <td mat-cell *matCellDef="let element"> 
+        <div class="media-body">
+        
+        <span>{{element.fecha}} </span>
+        <div ngbDropdown placement="bottom-right" class="editButton" >
+          <a
+            class="btn btn-sm btn-icon-only text-light"
+            ngbDropdownToggle
+          >
+            <i class="fas fa-ellipsis-v"></i>
+          </a>
+          <div
+            ngbDropdownMenu
+            class="dropdown-menu-right dropdown-menu-arrow"
+          >
+            <a class="dropdown-item" href="javascript:void(0)"
+              >Editar</a
+            >
+          </div>
+        </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr  class="thead-light " mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>
 
-<div class="recargar" style="width: 100%;">
+
+<div class="recargar" style="width: 100%">
   <div class="container">
-    <div class="row" style="width: 100%;">
-      <div class="col-6 button ">
+    <div class="row" style="width: 100%">
+      <div class="col-6 button">
         <button type="button" class="btn btn-secondary button">
           <i class="fas fa-redo-alt fa-4x"></i>
         </button>
       </div>
       <div class="col-6 saveButtons">
-        <button type="button" class="btn btn-outline-default saveButtons">Cancelar</button>
-        <button type="button" class="btn btn-outline-primary saveButtons">Guardar</button>
+        <button type="button" class="btn btn-outline-default saveButtons">
+          Cancelar
+        </button>
+        <button type="button" class="btn btn-outline-primary saveButtons">
+          Guardar
+        </button>
       </div>
-
     </div>
   </div>
 </div>

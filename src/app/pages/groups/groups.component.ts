@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {DataSource} from '@angular/cdk/collections';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -13,6 +14,17 @@ import {DataSource} from '@angular/cdk/collections';
  
 })
 export class GroupsComponent implements OnInit {
+  panelOpenState = false;
+
+  tags = new FormControl();
+
+  tagsList: string[] = ['Python', 'Intro', 'Poo', 'Geometria', 'Recursividad', 'Fibonacci'];
+  
+  groups = new FormControl();
+
+  groupsList: string[] = ['group1', 'group2', 'group3', 'group3', 'group4', 'group5'];
+
+
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
