@@ -22,7 +22,7 @@ export class LabelsService {
   updateTag(uniqueTagID: string, tagName: string) {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJ0ZXN0IiwiX2lkIjoiM2E0YTBmMjMtOGQ4NC00MjYyLThkY2MtYzFkMmYzNTU1N2NiIiwiaWF0IjoxNjE5NjQ3NTEzfQ.uluX3t20Ls0-JjQuKiedvbQP7gF1XT5QUqi5ytcBQQI' });
     const body = { tagName: tagName };
-    this.http.put<any>('http://localhost:3000/tag/update' + uniqueTagID, body, { headers: headers }).subscribe(
+    this.http.put<any>('http://localhost:3000/tag/update/' + uniqueTagID, body, { headers: headers }).subscribe(
       (val) => {
         console.log("POST call successful value returned in body",
           val);

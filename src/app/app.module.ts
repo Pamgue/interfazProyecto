@@ -19,7 +19,6 @@ import { MaterialModule } from './material/material.module';
 import { GroupsService } from './services/groups.service';
 import { LabelsService } from './services/labels.service';
 import { ProblemsService } from './services/problems.service';
-import { StudentProfileService } from './services/student-profile.service';
 import { StudentsService } from './services/students.service';
 import { UserService } from './services/user.service';
 
@@ -47,7 +46,6 @@ import { UserService } from './services/user.service';
     GroupsService,
     LabelsService,
     ProblemsService,
-    StudentProfileService,
     StudentsService,
     UserService
   ],
