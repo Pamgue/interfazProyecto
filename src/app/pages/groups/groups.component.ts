@@ -42,8 +42,8 @@ export class GroupsComponent implements OnInit {
 
   dataStudentsList = new MatTableDataSource<Element>(STUDENTS_DATA);
   selection = new SelectionModel<Element>(true, []);
-  displayedStudentsColumnsList: string[] = ['select','id', 'name', 'age', 'address', 'actions'];
-  
+  displayedStudentsColumnsList: string[] = ['select','id', 'name', 'age', 'address'];
+  innerDisplayedColumns = ['name'];
   isTableExpanded=false;
   ngOnInit(): void {
   
@@ -88,6 +88,13 @@ export class GroupsComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id }`;
   }
+  getKeys(object): string[] {
+   //console.log(object);
+   return Object.keys(object);
+ }
+ onItemSelected(idx: number) {
+   console.log(idx);
+ }
 
 }
 
@@ -97,6 +104,7 @@ export interface Element {
   age: number;
   address: number;
   isExpanded: boolean;
+
   subjects:  any;
 
 }
@@ -107,21 +115,28 @@ const STUDENTS_DATA: Element[] = [
      "age":21,
      "address":1.0079,
      "isExpanded":false,
+
      "subjects":[
         {
            "name":"Bio",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+           
         },
         {
            "name":"Chemistry",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+           
         },
         {
            "name":"Physics",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+           
         }
      ]
   },
@@ -131,21 +146,28 @@ const STUDENTS_DATA: Element[] = [
      "age":20,
      "address":1.0079,
      "isExpanded":false,
+
      "subjects":[
         {
            "name":"Bio",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+          
         },
         {
            "name":"Chemistry",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+          
         },
         {
            "name":"Physics",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+           
         }
      ]
   },
@@ -155,21 +177,28 @@ const STUDENTS_DATA: Element[] = [
      "age":21,
      "address":1.0079,
      "isExpanded":false,
+  
      "subjects":[
         {
            "name":"Bio",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+           
         },
         {
            "name":"Chemistry",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+           
         },
         {
            "name":"Physics",
            "type":"Medical",
-           "grade":"A"
+           "grade":"A",
+           "Ocupacion": "Carpintero"
+          
         }
      ]
   },
@@ -179,21 +208,28 @@ const STUDENTS_DATA: Element[] = [
     "age":21,
     "address":1.0079,
     "isExpanded":false,
+    
     "subjects":[
        {
           "name":"Bio",
           "type":"Medical",
-          "grade":"A"
+          "grade":"A",
+          "Ocupacion": "Carpintero"
+          
        },
        {
           "name":"Chemistry",
           "type":"Medical",
-          "grade":"A"
+          "grade":"A",
+          "Ocupacion": "Carpintero"
+          
        },
        {
           "name":"Physics",
           "type":"Medical",
-          "grade":"A"
+          "grade":"A",
+          "Ocupacion": "Carpintero"
+      
        }
     ]
  },   
@@ -203,21 +239,28 @@ const STUDENTS_DATA: Element[] = [
   "age":21,
   "address":1.0079,
   "isExpanded":false,
+
   "subjects":[
      {
         "name":"Bio",
         "type":"Medical",
-        "grade":"A"
+        "grade":"A",
+        "Ocupacion": "Carpintero"
+
      },
      {
         "name":"Chemistry",
         "type":"Medical",
-        "grade":"A"
+        "grade":"A",
+        "Ocupacion": "Carpintero"
+
      },
      {
         "name":"Physics",
         "type":"Medical",
-        "grade":"A"
+        "grade":"A",
+        "Ocupacion": "Carpintero"
+
      }
   ]
 },

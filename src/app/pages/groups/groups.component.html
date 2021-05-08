@@ -87,41 +87,56 @@
 </div>
 <!--Tabla-->
 
-<div  class="container-fluid mt--7">
+<div class="container-fluid mt--7 table">
+  <div class="card shadow">
+    <div class="card-header border-0">
+      <h3 class="mb-0">Tabla de grupos
+        
+      </h3>
+    </div>
+  </div>
   <table
     mat-table
     [dataSource]="dataStudentsList"
     multiTemplateDataRows
     matSort
   >
-  <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef>
-      <mat-checkbox (change)="$event ? masterToggle() : null"
-                    [checked]="selection.hasValue() && isAllSelected()"
-                    [indeterminate]="selection.hasValue() && !isAllSelected()"
-                    [aria-label]="checkboxLabel()"
-                    >
-      </mat-checkbox>
-    </th>
-    <td mat-cell *matCellDef="let row">
-      <mat-checkbox (click)="$event.stopPropagation()"
-                    (change)="$event ? selection.toggle(row) : null"
-                    [checked]="selection.isSelected(row)"
-                    [aria-label]="checkboxLabel(row)"
-                   >
-      </mat-checkbox>
-    </td>
-  </ng-container>
+    <ng-container matColumnDef="select">
+      <th class="thead-light th " mat-header-cell *matHeaderCellDef>
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+          [aria-label]="checkboxLabel()"
+        >
+        </mat-checkbox>
+      </th>
+      <td class="td" mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+          [aria-label]="checkboxLabel(row)"
+        >
+        </mat-checkbox>
+
+        <a
+        mat-mini-fab 
+          (click)="toggleTableRows(row.id)"
+          color="primary"
+          class=" mx-4 expandButton rounded-circle align-middle"
+          >
+          <span class="font-weight-bold rounded-circle " >
+            {{ row.isExpanded ? "&and;" : " &or;" }} 
+           </span> 
+          </a>
+      </td>
+    </ng-container>
 
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
-      <td mat-cell *matCellDef="let element">
-        <a
-          mat-raised-button
-          (click)="toggleTableRows(element.id)"
-          color="primary"
-          >Toggle Rows</a
-        >
+      <td class="td" mat-cell *matCellDef="let element">
+       
 
         <span> {{ element.id }}</span>
       </td>
@@ -129,54 +144,43 @@
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+      <td class="td" mat-cell *matCellDef="let element">{{ element.name }}</td>
     </ng-container>
 
     <ng-container matColumnDef="age">
       <th mat-header-cell *matHeaderCellDef>age</th>
-      <td mat-cell *matCellDef="let element">{{ element.age }}</td>
+      <td class="td" mat-cell *matCellDef="let element">{{ element.age }}</td>
     </ng-container>
 
     <ng-container matColumnDef="address">
       <th mat-header-cell *matHeaderCellDef>address</th>
-      <td mat-cell *matCellDef="let element">{{ element.address }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef>actions</th>
-      <td mat-cell *matCellDef="let element">
-        <a
-          mat-button
-          href="javascript:void()"
-          (click)="element.isExpanded = !element.isExpanded"
-          >View Subjects</a
-        >
-      </td>
+      <td class="td" mat-cell *matCellDef="let element">{{ element.address }}</td>
     </ng-container>
 
     <!-- Template for details row -->
     <ng-container matColumnDef="expandedDetail">
-      <td
-        mat-cell
-        *matCellDef="let element"
-        [attr.colspan]="displayedStudentsColumnsList.length"
-      >
-        <div
-          class="row student-element-detail"
-          [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'"
-        >
-          <mat-list>
-            <div mat-subheader>Subjects of {{ element.name }}</div>
-            <mat-list-item *ngFor="let subject of element.subjects">
-              <div mat-line>{{ subject.name }}</div>
-              <div mat-line>
-                {{ subject.type }} | Grade: {{ subject.grade }}
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedStudentsColumnsList.length">
+        <div class="example-element-detail" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'" [style.display]="element.isExpanded ? 'block' : 'none'">
+          <div class="example-element-descriptions">
+            <div  >
+              <div class="example-element-description">
+                <div class="example-element-description__header">
+                  <div class="example-element-description__cell" *ngFor="let key of getKeys(element['subjects'][0])">{{key}}
+                  </div>
+                </div>
+                <div *ngFor="let subject of element['subjects']; let idx = index"
+                  class="example-element-description__content" (click)=onItemSelected(idx)>
+                  <div class="example-element-description__cell" *ngFor="let key of getKeys(subject)"> {{subject[key]}} 
+                  </div>
+                </div>
               </div>
-            </mat-list-item>
-          </mat-list>
+            </div>
+          </div>
+          
         </div>
       </td>
     </ng-container>
+
 
     <tr
       mat-header-row
@@ -196,7 +200,7 @@
       class="student-detail-row"
     ></tr>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>
 
 <div class="importCSV" style="width: 100%">
