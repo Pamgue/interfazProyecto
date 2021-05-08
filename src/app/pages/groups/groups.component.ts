@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {AfterViewInit,  ViewChild} from '@angular/core';
-import {BehaviorSubject, Observable} from 'rxjs';
+import { ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {DataSource, SelectionModel} from '@angular/cdk/collections';
+import { SelectionModel} from '@angular/cdk/collections';
 import { FormControl } from '@angular/forms';
-import { MatTableModule } from '@angular/material/table';
-import { MatListModule } from '@angular/material/list';
-import { MatButtonModule } from '@angular/material/button';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
 
