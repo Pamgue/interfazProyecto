@@ -3,17 +3,33 @@ import {AfterViewInit,  ViewChild} from '@angular/core';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-import {DataSource} from '@angular/cdk/collections';
+import {DataSource, SelectionModel} from '@angular/cdk/collections';
 import { FormControl } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatListModule } from '@angular/material/list';
+import { MatButtonModule } from '@angular/material/button';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatSort } from '@angular/material/sort';
+
 
 
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.scss']
+  styleUrls: ['./groups.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
  
 })
 export class GroupsComponent implements OnInit {
+  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   panelOpenState = false;
 
   tags = new FormControl();
@@ -24,64 +40,185 @@ export class GroupsComponent implements OnInit {
 
   groupsList: string[] = ['group1', 'group2', 'group3', 'group3', 'group4', 'group5'];
 
-
+  dataStudentsList = new MatTableDataSource<Element>(STUDENTS_DATA);
+  selection = new SelectionModel<Element>(true, []);
+  displayedStudentsColumnsList: string[] = ['select','id', 'name', 'age', 'address', 'actions'];
+  
+  isTableExpanded=false;
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+  
+  
+  }
+  ngAfterViewInit() {
+    this.dataStudentsList.paginator = this.paginator;
+    this.dataStudentsList.sort = this.sort;
   }
   expandContent = true;
-  data1 = [{
-    'name': 'Grupo 1',
-    'place': 'forest',
-    'phone': '124-896-8963',
-    'expanded': false
-  }, {
-    'name': 'Grupo 2',
-    'place': 'City',
-    'phone': '124-896-1234',
-    'expanded': false
-  }, {
-    'name': 'Grupo 3',
-    'place': 'sky',
-    'phone': '124-896-9632',
-    'expanded': false
-  },
-  ]
 
-  data2 = [{
-    'whoseData': 'Grupo 2',
-    'datades': {
-      'name': 'john',
-      'hobbies': 'singing',
-      'profession': 'singer'
-    }
-  }, {
-    'whoseData': 'Grupo 1',
-    'datades': {
-      'name': 'jay',
-      'hobbies': 'coding',
-      'profession': 'coder'
-    }
-  }, {
-    'whoseData': 'Grupo 2',
-    'datades': {
-      'name': 'jay',
-      'hobbies': 'testing',
-      'profession': 'tester'
-    },
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataStudentsList.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+        this.selection.clear() :
+        this.dataStudentsList.data.forEach(row => this.selection.select(row));
+  }
+
+
+ 
+  
+  toggleTableRows(element) {
+    this.isTableExpanded = !this.isTableExpanded;
+
+    this.dataStudentsList.data.forEach((row:any) => {
+      if(element == row.id){
+        row.isExpanded = this.isTableExpanded;
+      }
+      
+    });
     
+  }
+  checkboxLabel(row?: Element): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id }`;
+  }
+
+}
+
+export interface Element {
+  id: number;
+  name: string;
+  age: number;
+  address: number;
+  isExpanded: boolean;
+  subjects:  any;
+
+}
+const STUDENTS_DATA: Element[] = [
+  {
+     "id":1,
+     "name":"Abby Jaskolski ",
+     "age":21,
+     "address":1.0079,
+     "isExpanded":false,
+     "subjects":[
+        {
+           "name":"Bio",
+           "type":"Medical",
+           "grade":"A"
+        },
+        {
+           "name":"Chemistry",
+           "type":"Medical",
+           "grade":"A"
+        },
+        {
+           "name":"Physics",
+           "type":"Medical",
+           "grade":"A"
+        }
+     ]
   },
   {
-    'whoseData': 'Grupo 3',
-    'datades': {
-      'name': 'jay',
-      'hobbies': 'testing',
-      'profession': 'tester'
-    },
-  }
+     "id":2,
+     "name":"Jabari Fritsch",
+     "age":20,
+     "address":1.0079,
+     "isExpanded":false,
+     "subjects":[
+        {
+           "name":"Bio",
+           "type":"Medical",
+           "grade":"A"
+        },
+        {
+           "name":"Chemistry",
+           "type":"Medical",
+           "grade":"A"
+        },
+        {
+           "name":"Physics",
+           "type":"Medical",
+           "grade":"A"
+        }
+     ]
+  },
+  {
+     "id":3,
+     "name":"Maybell Simonis",
+     "age":21,
+     "address":1.0079,
+     "isExpanded":false,
+     "subjects":[
+        {
+           "name":"Bio",
+           "type":"Medical",
+           "grade":"A"
+        },
+        {
+           "name":"Chemistry",
+           "type":"Medical",
+           "grade":"A"
+        },
+        {
+           "name":"Physics",
+           "type":"Medical",
+           "grade":"A"
+        }
+     ]
+  },
+  {
+    "id":4,
+    "name":"Abby Jaskolski ",
+    "age":21,
+    "address":1.0079,
+    "isExpanded":false,
+    "subjects":[
+       {
+          "name":"Bio",
+          "type":"Medical",
+          "grade":"A"
+       },
+       {
+          "name":"Chemistry",
+          "type":"Medical",
+          "grade":"A"
+       },
+       {
+          "name":"Physics",
+          "type":"Medical",
+          "grade":"A"
+       }
+    ]
+ },   
+  {
+  "id":5,
+  "name":"Abby Jaskolski ",
+  "age":21,
+  "address":1.0079,
+  "isExpanded":false,
+  "subjects":[
+     {
+        "name":"Bio",
+        "type":"Medical",
+        "grade":"A"
+     },
+     {
+        "name":"Chemistry",
+        "type":"Medical",
+        "grade":"A"
+     },
+     {
+        "name":"Physics",
+        "type":"Medical",
+        "grade":"A"
+     }
   ]
-
-
-  findDetails(data) {
-    return this.data2.filter(x => x.whoseData === data.name);
-  }
-}
+},
+];
