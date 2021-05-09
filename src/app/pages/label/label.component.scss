@@ -14,6 +14,40 @@
 
 }
 
+table {
+  width: 100%;
+}
+
+th {
+  text-align: left;
+}
+
+.showPanel {
+  height: 5rem;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #5e72e4 !important;
+}
+
+.expandButton {
+  color: #5e72e4;
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 5rem;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+}
+.expandButton:hover {
+  width: 30px;
+  height: 30px;
+  color: white;
+  background-color: #5e72e4;
+}
+
 .table {
     th {
       background-color: #f6f9fc;
