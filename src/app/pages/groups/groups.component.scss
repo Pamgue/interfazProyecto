@@ -91,6 +91,10 @@ tr.example-detail-row {
   padding-left: 8px;
   padding-right: 8px;
 }
+.example-element-description__content:hover{
+  color: #fff;
+  background-color: #5e72e4;
+}
 
 .example-element-description__header {
   color: #777;
@@ -136,6 +140,9 @@ tr.example-detail-row {
   height: 30px;
   color: white;
   background-color: #5e72e4;
+}
+.editButton{
+  float: right;
 }
 
 ::ng-deep th.mat-header-cell,

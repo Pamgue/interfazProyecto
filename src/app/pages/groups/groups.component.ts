@@ -23,6 +23,7 @@ import { MatSort } from '@angular/material/sort';
  
 })
 export class GroupsComponent implements OnInit {
+
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -36,16 +37,23 @@ export class GroupsComponent implements OnInit {
 
   groupsList: string[] = ['group1', 'group2', 'group3', 'group3', 'group4', 'group5'];
 
-  dataStudentsList = new MatTableDataSource<Element>(STUDENTS_DATA);
-  selection = new SelectionModel<Element>(true, []);
-  displayedStudentsColumnsList: string[] = ['select','id', 'name', 'age', 'address'];
-  innerDisplayedColumns = ['name'];
+  dataStudentsList = new MatTableDataSource([]);
+  selection = new SelectionModel<any>(true, []);
+  displayedStudentsColumnsList: string[] = ['select','id', 'name', 'age', 'address', 'edit'];
   isTableExpanded=false;
+
+  constructor(){
+   this.displayedStudentsColumnsList = this.displayedStudentsColumnsList;
+   this.dataStudentsList = new MatTableDataSource(this.STUDENTS_DATA);
+  }
+
   ngOnInit(): void {
+   
   
   
   }
   ngAfterViewInit() {
+
     this.dataStudentsList.paginator = this.paginator;
     this.dataStudentsList.sort = this.sort;
   }
@@ -62,6 +70,7 @@ export class GroupsComponent implements OnInit {
     this.isAllSelected() ?
         this.selection.clear() :
         this.dataStudentsList.data.forEach(row => this.selection.select(row));
+
   }
 
 
@@ -72,6 +81,7 @@ export class GroupsComponent implements OnInit {
 
     this.dataStudentsList.data.forEach((row:any) => {
       if(element == row.id){
+
         row.isExpanded = this.isTableExpanded;
       }
       
@@ -80,8 +90,10 @@ export class GroupsComponent implements OnInit {
   }
   checkboxLabel(row?: Element): string {
     if (!row) {
+
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
+
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id }`;
   }
   getKeys(object): string[] {
@@ -91,27 +103,107 @@ export class GroupsComponent implements OnInit {
  onItemSelected(idx: number) {
    console.log(idx);
  }
-
-}
-
-export interface Element {
-  id: number;
-  name: string;
-  age: number;
-  address: number;
-  isExpanded: boolean;
-
-  subjects:  any;
-
-}
-const STUDENTS_DATA: Element[] = [
-  {
-     "id":1,
+ STUDENTS_DATA= [
+   {
+      "id":1,
+      "name":"Abby Jaskolski ",
+      "age":21,
+      "address":1.0079,
+      "isExpanded":false,
+ 
+      "subjects":[
+         {
+            "name":"Bio",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+            
+         },
+         {
+            "name":"Chemistry",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+            
+         },
+         {
+            "name":"Physics",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+            
+         }
+      ]
+   },
+   {
+      "id":2,
+      "name":"Jabari Fritsch",
+      "age":20,
+      "address":1.0079,
+      "isExpanded":false,
+ 
+      "subjects":[
+         {
+            "name":"Bio",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+           
+         },
+         {
+            "name":"Chemistry",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+           
+         },
+         {
+            "name":"Physics",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+            
+         }
+      ]
+   },
+   {
+      "id":3,
+      "name":"Maybell Simonis",
+      "age":21,
+      "address":1.0079,
+      "isExpanded":false,
+   
+      "subjects":[
+         {
+            "name":"Bio",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+            
+         },
+         {
+            "name":"Chemistry",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+            
+         },
+         {
+            "name":"Physics",
+            "type":"Medical",
+            "grade":"A",
+            "Ocupacion": "Carpintero"
+           
+         }
+      ]
+   },
+   {
+     "id":4,
      "name":"Abby Jaskolski ",
      "age":21,
      "address":1.0079,
      "isExpanded":false,
-
+     
      "subjects":[
         {
            "name":"Bio",
@@ -132,132 +224,43 @@ const STUDENTS_DATA: Element[] = [
            "type":"Medical",
            "grade":"A",
            "Ocupacion": "Carpintero"
-           
+       
         }
      ]
-  },
-  {
-     "id":2,
-     "name":"Jabari Fritsch",
-     "age":20,
-     "address":1.0079,
-     "isExpanded":false,
+  },   
+   {
+   "id":5,
+   "name":"Abby Jaskolski ",
+   "age":21,
+   "address":1.0079,
+   "isExpanded":false,
+ 
+   "subjects":[
+      {
+         "name":"Bio",
+         "type":"Medical",
+         "grade":"A",
+         "Ocupacion": "Carpintero"
+ 
+      },
+      {
+         "name":"Chemistry",
+         "type":"Medical",
+         "grade":"A",
+         "Ocupacion": "Carpintero"
+ 
+      },
+      {
+         "name":"Physics",
+         "type":"Medical",
+         "grade":"A",
+         "Ocupacion": "Carpintero"
+ 
+      }
+   ]
+ },
+ ];
 
-     "subjects":[
-        {
-           "name":"Bio",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-          
-        },
-        {
-           "name":"Chemistry",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-          
-        },
-        {
-           "name":"Physics",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-           
-        }
-     ]
-  },
-  {
-     "id":3,
-     "name":"Maybell Simonis",
-     "age":21,
-     "address":1.0079,
-     "isExpanded":false,
-  
-     "subjects":[
-        {
-           "name":"Bio",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-           
-        },
-        {
-           "name":"Chemistry",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-           
-        },
-        {
-           "name":"Physics",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-          
-        }
-     ]
-  },
-  {
-    "id":4,
-    "name":"Abby Jaskolski ",
-    "age":21,
-    "address":1.0079,
-    "isExpanded":false,
-    
-    "subjects":[
-       {
-          "name":"Bio",
-          "type":"Medical",
-          "grade":"A",
-          "Ocupacion": "Carpintero"
-          
-       },
-       {
-          "name":"Chemistry",
-          "type":"Medical",
-          "grade":"A",
-          "Ocupacion": "Carpintero"
-          
-       },
-       {
-          "name":"Physics",
-          "type":"Medical",
-          "grade":"A",
-          "Ocupacion": "Carpintero"
-      
-       }
-    ]
- },   
-  {
-  "id":5,
-  "name":"Abby Jaskolski ",
-  "age":21,
-  "address":1.0079,
-  "isExpanded":false,
+}
 
-  "subjects":[
-     {
-        "name":"Bio",
-        "type":"Medical",
-        "grade":"A",
-        "Ocupacion": "Carpintero"
 
-     },
-     {
-        "name":"Chemistry",
-        "type":"Medical",
-        "grade":"A",
-        "Ocupacion": "Carpintero"
-
-     },
-     {
-        "name":"Physics",
-        "type":"Medical",
-        "grade":"A",
-        "Ocupacion": "Carpintero"
-
-     }
-  ]
-},
-];
