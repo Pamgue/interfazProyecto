@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { LabelsService } from '../../services/labels.service';
 import { NgModule } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 import { MaterialModule } from '../../material/material.module';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,20 +12,6 @@ import { DialogBoxComponent } from '../../components/dialog-box/dialog-box.compo
 
 import { SelectionModel } from '@angular/cdk/collections';
 
-// Como deberia venir la info del service
-const tagResult_ELEMENT_DATA = [
-  { id: '1234567891', name: 'Hydrogen', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Helium', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Lithium', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Beryllium', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Boron', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Carbon', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Nitrogen', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Oxygen', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Fluorine', created_date: '11/04/2020' },
-  { id: '1234567891', name: 'Neon', created_date: '11/04/2020' },
-];
-
 @NgModule({
   imports: [MaterialModule],
 })
@@ -32,7 +19,7 @@ const tagResult_ELEMENT_DATA = [
   selector: 'app-dashboard',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
-  providers: [LabelsService]
+  providers: [LabelsService, DatePipe]
 })
 
 export class LabelComponent implements OnInit {
@@ -49,20 +36,12 @@ export class LabelComponent implements OnInit {
   dataSource = new MatTableDataSource();
 
   //Aqui se guarda lo devuelto por el servicio
-  tagResult: Array<any> = [];
-
-  constructor(private labelsService: LabelsService, public dialog: MatDialog) {
+  allTagsResult: Array<any> = [];
+  
+  constructor(private labelsService: LabelsService, public dialog: MatDialog, private datePipe: DatePipe) {
     this.getAlltags();
     // Aqui se carga lo devuelto por el servicio
-    //this.dataSource = new MatTableDataSource(this.tagResult);
-  }
-
-  onDelete(action: string, page: string){
-    var rowsToDelete: Array<any> = this.selection.selected;
-
-    if (rowsToDelete.length != 0){
-      this.openDialog(action, page, rowsToDelete);
-    }
+    //this.dataSource = new MatTableDataSource(this.allTagsResult);
   }
 
   ngOnInit() {
@@ -76,14 +55,14 @@ export class LabelComponent implements OnInit {
   getAlltags() {
     this.labelsService.getAllTags().subscribe(
       data => {
-        this.tagResult = data;
+        this.allTagsResult = data;
       },
       error => console.log("Error: ", error),
       () => this.refreshRows());
   }
 
   refreshRows(){
-    this.dataSource = new MatTableDataSource(this.tagResult);
+    this.dataSource = new MatTableDataSource(this.allTagsResult);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -128,15 +107,29 @@ export class LabelComponent implements OnInit {
     });
   }
 
-  addRowData(row_obj){
-    this.tagResult.unshift({id: '1234567891', name: row_obj.name, created_date: '11/04/2020'})
+  onDelete(action: string, page: string){
+    var rowsToDelete: Array<any> = this.selection.selected;
 
-    this.refreshTable();
+    if (rowsToDelete.length != 0){
+      this.openDialog(action, page, rowsToDelete);
+    }
+  }
+
+  addRowData(row_obj){
+    var myDate = this.datePipe.transform( new Date(), 'yyyy-MM-dd');
+    this.labelsService.addTag(row_obj.name).subscribe(
+      data => {
+        this.allTagsResult.unshift({id: data.id, name: data.name, created_date: myDate})
+      },
+      error => console.log("Error: ", error),
+      () => this.refreshTable()
+    );
   }
 
   updateRowData(row_obj){
-    const foundIndex = this.tagResult.findIndex(x => x.id === row_obj.id);
-    this.tagResult[foundIndex].name = row_obj.name;
+    this.labelsService.updateTag(row_obj.id, row_obj.name);
+    const foundIndex = this.allTagsResult.findIndex(x => x.id === row_obj.id);
+    this.allTagsResult[foundIndex].name = row_obj.name;
 
     this.refreshTable();
     return true;
@@ -145,10 +138,12 @@ export class LabelComponent implements OnInit {
   deleteRowData(row_obj){
     row_obj.forEach(
       row => {
-        const foundIndex = this.tagResult.findIndex(x => x.id === row.id);
-        this.tagResult.splice(foundIndex, 1);
+        this.labelsService.deleteTag(row.id);
+        const foundIndex = this.allTagsResult.findIndex(x => x.id === row.id);
+        this.allTagsResult.splice(foundIndex, 1);
       }
     );
+
     this.selection = new SelectionModel<any>(true, []);
     this.refreshTable();
     return true;
