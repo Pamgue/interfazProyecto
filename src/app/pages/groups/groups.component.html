@@ -45,28 +45,8 @@
                   {{ tags.value?.length === 2 ? "other" : "others" }})
                 </span>
               </mat-select-trigger>
-              <mat-option *ngFor="let tags of tagsList" [value]="tags">{{
-                tags
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-2">
-          <mat-form-field appearance="fill">
-            <mat-label>Groups</mat-label>
-            <mat-select [formControl]="groups" multiple>
-              <mat-select-trigger>
-                {{ groups.value ? groups.value[0] : "" }}
-                <span
-                  *ngIf="groups.value?.length > 1"
-                  class="example-additional-selection"
-                >
-                  (+{{ groups.value.length - 1 }}
-                  {{ groups.value?.length === 2 ? "other" : "others" }})
-                </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let group of groupsList" [value]="group">{{
-                group
+              <mat-option *ngFor="let tag of tagResult" [value]="tag.name">{{
+                tag.name
               }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -75,7 +55,7 @@
           <button
             class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
             type="button"
-            (click)="updateLabel('etiquetado')"
+            (click)="filterGroups(tags.value)"
           >
             <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
             <span class="btn-inner--text">Filtrar</span>
@@ -90,8 +70,7 @@
 <div class="container-fluid mt--7 table">
   <div class="card shadow">
     <div class="card-header border-0">
-      <h3 class="mb-0">Tabla de grupos
-        
+      <h3 class="mb-0">Grupos
       </h3>
     </div>
   </div>
