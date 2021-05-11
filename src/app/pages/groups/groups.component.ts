@@ -34,44 +34,43 @@ export class GroupsComponent implements OnInit {
 
   tags = new FormControl();
 
-  //Aqui se guarda lo devuelto por el servicio
+  //Aqui se guarda lo devuelto por el servicio para las etiquetas del filtrado (dropdown)
   tagResult: Array<any> = [];
   
   dataStudentsList = new MatTableDataSource([]);
+
+  // Modelo para el select
   selection = new SelectionModel<any>(true, []);
-  //displayedStudentsColumnsList: string[] = ['select','id', 'name', 'age', 'address', 'edit'];
-  displayedStudentsColumnsList: string[] = ['select','name', 'edit'];
+
+   //Aqui se guarda lo devuelto por el servicio
+   allGroupsResult: Array<any> = [];
+
+   // Aqui se carga lo devuelto por el servicio
+  dataSource = new MatTableDataSource();
+
+  // Elementos que se van a mostrar en la tabla
+  displayedGroupsColumnsList: string[] = ['select','name', 'edit'];
+  displayedStudentsColumnsList: string[] = ['studentid','name','lastname', 'CodeForces', 'CodeChef', 'UVA'];
   isTableExpanded=false;
 
   constructor(private groupsService: GroupsService, private labelsService: LabelsService, public dialog: MatDialog) {
-   this.displayedStudentsColumnsList = this.displayedStudentsColumnsList;
-   this.dataStudentsList = new MatTableDataSource(this.STUDENTS_DATA);
    this.getTagNames();
-   // Aqui se carga lo devuelto por el servicio
-   //this.dataSource = new MatTableDataSource(this.tagResult);
+   this.getAllGroups(null);
  }
- /*
-  constructor(){
-   this.displayedStudentsColumnsList = this.displayedStudentsColumnsList;
-   this.dataStudentsList = new MatTableDataSource(this.STUDENTS_DATA);
-  }
-*/
 
-  ngOnInit(): void {
-   
-  
-  
-  }
+  ngOnInit(): void {}
+
   ngAfterViewInit() {
-
-    this.dataStudentsList.paginator = this.paginator;
-    this.dataStudentsList.sort = this.sort;
+    //this.dataStudentsList.paginator = this.paginator;
+    //this.dataStudentsList.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort; 
   }
   expandContent = true;
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataStudentsList.data.length;
+    const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
@@ -79,21 +78,19 @@ export class GroupsComponent implements OnInit {
   masterToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
-        this.dataStudentsList.data.forEach(row => this.selection.select(row));
-
+        this.dataSource.data.forEach(row => this.selection.select(row));
   }
   
   toggleTableRows(element) {
     this.isTableExpanded = !this.isTableExpanded;
 
-    this.dataStudentsList.data.forEach((row:any) => {
+    this.dataSource.data.forEach((row:any) => {
       if(element == row.id){
 
         row.isExpanded = this.isTableExpanded;
       }
       
-    });
-    
+    });   
   }
 
   checkboxLabel(row?: Element): string {
@@ -110,8 +107,8 @@ export class GroupsComponent implements OnInit {
    return Object.keys(object);
  }
 
- onItemSelected(idx: number) {
-   console.log(idx);
+ onStudentClick(idStudent: number) {
+   console.log(idStudent);
  }
 
  getTagNames() {
@@ -127,317 +124,37 @@ export class GroupsComponent implements OnInit {
    );
  }
 
- filterGroups(tags: Object) {
-   console.log(tags);
+ getAllGroups(tags: string) {
+   if (tags === null){
+      tags = "";
+   }
+   this.groupsService.getAllGroups(tags).subscribe(
+     data => {
+       this.allGroupsResult = data;
+       console.log(this.allGroupsResult);
+     },
+     error => console.log("Error: ", error),
+     () => this.refreshRows()
+   );
  }
 
- STUDENTS_DATA= [
-   {
-      "id":1,
-      "name":"Abby Jaskolski ",
-      "isExpanded":false,
- 
-      "subjects":[
-         {
-            "name":"Bio",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Chemistry",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Physics",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         }
-      ]
-   },
-   {
-      "id":2,
-      "name":"Jabari Fritsch",
-      "isExpanded":false,
- 
-      "subjects":[
-         {
-            "name":"Bio2",
-            "type":"Medical2",
-            "grade":"A2",
-            "Ocupacion": "Carpintero2"
-           
-         },
-         {
-            "name":"Chemistry",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-           
-         },
-         {
-            "name":"Physics",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         }
-      ]
-   },
-   {
-      "id":3,
-      "name":"Maybell Simonis",
-      "isExpanded":false,
-   
-      "subjects":[
-         {
-            "name":"Bio",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Chemistry",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Physics",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-           
-         }
-      ]
-   },
-   {
-      "id":4,
-     "name":"Abby Jaskolski ",
-     "isExpanded":false,
-     
-     "subjects":[
-        {
-           "name":"Bio",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-           
-        },
-        {
-           "name":"Chemistry",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-           
-        },
-        {
-           "name":"Physics",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-       
-        }
-     ]
-  },   
-   {
-   "id":5,
-   "name":"Abby Jaskolski ",
-   "isExpanded":false,
- 
-   "subjects":[
-      {
-         "name":"Bio",
-         "type":"Medical",
-         "grade":"A",
-         "Ocupacion": "Carpintero"
- 
-      },
-      {
-         "name":"Chemistry",
-         "type":"Medical",
-         "grade":"A",
-         "Ocupacion": "Carpintero"
- 
-      },
-      {
-         "name":"Physics",
-         "type":"Medical",
-         "grade":"A",
-         "Ocupacion": "Carpintero"
- 
-      }
-   ]
- },
- ];
+ refreshRows(){
+   this.dataSource = new MatTableDataSource(this.allGroupsResult);
+   this.dataSource.sort = this.sort;
+   this.dataSource.paginator = this.paginator;
+ }
 
- /*
- STUDENTS_DATA= [
-   {
-      "id":1,
-      "name":"Abby Jaskolski ",
-      "age":21,
-      "address":1.0079,
-      "isExpanded":false,
- 
-      "subjects":[
-         {
-            "name":"Bio",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Chemistry",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Physics",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         }
-      ]
-   },
-   {
-      "id":2,
-      "name":"Jabari Fritsch",
-      "age":20,
-      "address":1.0079,
-      "isExpanded":false,
- 
-      "subjects":[
-         {
-            "name":"Bio",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-           
-         },
-         {
-            "name":"Chemistry",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-           
-         },
-         {
-            "name":"Physics",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         }
-      ]
-   },
-   {
-      "id":3,
-      "name":"Maybell Simonis",
-      "age":21,
-      "address":1.0079,
-      "isExpanded":false,
-   
-      "subjects":[
-         {
-            "name":"Bio",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Chemistry",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-            
-         },
-         {
-            "name":"Physics",
-            "type":"Medical",
-            "grade":"A",
-            "Ocupacion": "Carpintero"
-           
-         }
-      ]
-   },
-   {
-     "id":4,
-     "name":"Abby Jaskolski ",
-     "age":21,
-     "address":1.0079,
-     "isExpanded":false,
-     
-     "subjects":[
-        {
-           "name":"Bio",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-           
-        },
-        {
-           "name":"Chemistry",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-           
-        },
-        {
-           "name":"Physics",
-           "type":"Medical",
-           "grade":"A",
-           "Ocupacion": "Carpintero"
-       
-        }
-     ]
-  },   
-   {
-   "id":5,
-   "name":"Abby Jaskolski ",
-   "age":21,
-   "address":1.0079,
-   "isExpanded":false,
- 
-   "subjects":[
-      {
-         "name":"Bio",
-         "type":"Medical",
-         "grade":"A",
-         "Ocupacion": "Carpintero"
- 
-      },
-      {
-         "name":"Chemistry",
-         "type":"Medical",
-         "grade":"A",
-         "Ocupacion": "Carpintero"
- 
-      },
-      {
-         "name":"Physics",
-         "type":"Medical",
-         "grade":"A",
-         "Ocupacion": "Carpintero"
- 
-      }
-   ]
- },
- ];
- */
+ refreshTable(){
+   this.dataSource.sort = this.sort;
+   this.dataSource.paginator = this.paginator;
+ }
+
+ //Corregir, llega el body vacio entonces no hace el filtrado
+ filterGroups(tags: Array<string>) {
+   console.log(tags);
+   var tagsString = tags.map(String).join(';');
+   this.getAllGroups(tagsString);
+ }
 
 }
 
