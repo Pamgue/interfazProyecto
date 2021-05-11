@@ -4,14 +4,15 @@ import {
   HttpClient,
   HttpHeaders
 } from '@angular/common/http';
-import { LocalStorageService } from './local-storage.service';
+import { JWTTokenService } from './jwttoken.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  userValue: Boolean = false;
 
-  constructor(private http: HttpClient, private localStorage: LocalStorageService) { }
+  constructor(private http: HttpClient, private jwtService: JWTTokenService) { }
 
   login(username: string, password: string): Observable<any> {
     const body = { username: username, password: password };
@@ -22,5 +23,10 @@ export class UserService {
     //   () => console.log(localStorage.getItem('token'))
     // );
     return this.http.post<any>('http://localhost:3000/user/login', body);
+  }
+
+  isTokenExpired() {
+    return this.jwtService.isTokenExpired();
+;
   }
 }

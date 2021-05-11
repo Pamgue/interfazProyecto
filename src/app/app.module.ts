@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -21,6 +21,11 @@ import { LabelsService } from './services/labels.service';
 import { ProblemsService } from './services/problems.service';
 import { StudentsService } from './services/students.service';
 import { UserService } from './services/user.service';
+
+import { AuthorizeGuard } from './services/authorize-guard.service';
+import { JWTTokenService } from './services/jwttoken.service';
+import { LocalStorageService } from './services/local-storage.service';
+import { UniversalAppInterceptor } from './services/universal-app-interceptor.service';
 
 @NgModule({
   imports: [
@@ -44,10 +49,13 @@ import { UserService } from './services/user.service';
   providers: [
     NgbActiveModal,
     GroupsService,
-    LabelsService,
     ProblemsService,
     StudentsService,
-    UserService
+    UserService,
+    AuthorizeGuard,
+    JWTTokenService,
+    LocalStorageService,
+    { provide: HTTP_INTERCEPTORS, useClass: UniversalAppInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

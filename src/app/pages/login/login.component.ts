@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
+import { UserService } from '../../services/user.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,12 +21,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    //private authenticationService: AuthenticationService
+    private userService: UserService
   ) {
     // redirect to home if already logged in
-    // if (this.authenticationService.userValue) { 
-    //     this.router.navigate(['/']);
-    // }
+    if (this.userService.userValue && !this.userService.isTokenExpired()) { 
+        this.router.navigate(['/groups']);
+    }
+    this.userService.userValue = false;
   }
 
   ngOnInit() {
@@ -34,7 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/groups';
   }
 
   // convenience getter for easy access to form fields
@@ -49,18 +52,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     this.loading = true;
-    this.error = "El nombre de usuario o la contraseña son inválidas";
-    this.loading = false;
-    // this.authenticationService.login(this.f.username.value, this.f.password.value)
-    //     .pipe(first())
-    //     .subscribe(
-    //         data => {
-    //             this.router.navigate([this.returnUrl]);
-    //         },
-    //         error => {
-    //             this.error = error;
-    //             this.loading = false;
-    //         });
+
+    // this.error = "El nombre de usuario o la contraseña son inválidas";
+    // this.loading = false;
+    this.userService.login(this.f.username.value, this.f.password.value)
+        .pipe(first())
+        .subscribe(
+            data => {
+              localStorage.setItem('token', data.token);
+              this.userService.userValue = true;
+              this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.error = error;
+                this.loading = false;
+            },
+            () => {
+              console.log(localStorage.getItem('token'));
+            }
+          );
   }
 
   ngOnDestroy() {

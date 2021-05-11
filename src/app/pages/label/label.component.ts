@@ -19,7 +19,7 @@ import { SelectionModel } from '@angular/cdk/collections';
   selector: 'app-dashboard',
   templateUrl: './label.component.html',
   styleUrls: ['./label.component.scss'],
-  providers: [LabelsService, DatePipe]
+  providers: [ DatePipe]
 })
 
 export class LabelComponent implements OnInit {
