@@ -21,15 +21,11 @@ export class ProblemsService {
   }
 
   getAllProblem(uniqueJudgesIDs: string, uniqueTagsIDs: string): Observable<any> {
-    // const options = {
-    //   headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Authorization': 'JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJ0ZXN0IiwiX2lkIjoiM2E0YTBmMjMtOGQ4NC00MjYyLThkY2MtYzFkMmYzNTU1N2NiIiwiaWF0IjoxNjE5NjQ3NTEzfQ.uluX3t20Ls0-JjQuKiedvbQP7gF1XT5QUqi5ytcBQQI' }),
-    //   body : { uniqueJudgesIDs: uniqueJudgesIDs,  uniqueTagsIDs: uniqueTagsIDs}
-    // };
-    // return this.http.get<any>('http://localhost:3000/problem/getall', options);
-    const options = {
-      body : { uniqueJudgesIDs: uniqueJudgesIDs,  uniqueTagsIDs: uniqueTagsIDs}
-    };
-    return this.http.post<any>('http://localhost:3000/problem/getall', options);
+
+    const body = { uniqueJudgesIDs: uniqueJudgesIDs,  uniqueTagsIDs: uniqueTagsIDs};
+
+  
+    return this.http.post<any>('http://localhost:3000/problem/getall', body);
   }
 
   updateProblem(uniqueProblemID: string, problemComment: string) {

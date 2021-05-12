@@ -1,3 +1,4 @@
+
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
@@ -19,8 +20,8 @@
                       {{ tags.value?.length === 2 ? "other" : "others" }})
                     </span>
                   </mat-select-trigger>
-                  <mat-option *ngFor="let tag of tagsList" [value]="tag">{{
-                    tag
+                  <mat-option *ngFor="let tag of tagsList" [value]="tag.name">{{
+                    tag.name
                   }}</mat-option>
                 </mat-select>
               </mat-form-field>
@@ -97,28 +98,28 @@
                   {{ tags.value?.length === 2 ? "other" : "others" }})
                 </span>
               </mat-select-trigger>
-              <mat-option *ngFor="let tags of tagsList" [value]="tags">{{
-                tags
+              <mat-option *ngFor="let tags of tagsList" [value]="tags.name">{{
+                tags.name
               }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="col-2">
           <mat-form-field appearance="fill">
-            <mat-label>Groups</mat-label>
-            <mat-select [formControl]="groups" multiple>
+            <mat-label>Judges</mat-label>
+            <mat-select [formControl]="judges" multiple>
               <mat-select-trigger>
-                {{ groups.value ? groups.value[0] : "" }}
+                {{ judges.value ? judges.value[0] : "" }}
                 <span
-                  *ngIf="groups.value?.length > 1"
+                  *ngIf="judges.value?.length > 1"
                   class="example-additional-selection"
                 >
-                  (+{{ groups.value.length - 1 }}
-                  {{ groups.value?.length === 2 ? "other" : "others" }})
+                  (+{{ judges.value.length - 1 }}
+                  {{ judges.value?.length === 2 ? "other" : "others" }})
                 </span>
               </mat-select-trigger>
-              <mat-option *ngFor="let group of groupsList" [value]="group">{{
-                group
+              <mat-option *ngFor="let judge of judgesList" [value]="judge.name">{{
+                judge.name
               }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -127,7 +128,7 @@
           <button
             class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
             type="button"
-            (click)="updateLabel('etiquetado')"
+            (click)="filterProblems('filtrado')"
           >
             <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
             <span class="btn-inner--text">Filtrar</span>
@@ -137,57 +138,50 @@
     </mat-expansion-panel>
   </mat-accordion>
 </div>
-<div class="container-fluid mt--7 table" >
-
+<div class="container-fluid mt--7 table">
   <div class="card shadow">
     <div class="card-header border-0">
       <h3 class="mb-0">Tabla de estudiantes
-        
       </h3>
     </div>
   </div>
-
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+ 
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100" multiTemplateDataRows>
+    <ng-container matColumnDef="select">
+      <th class="thead-light th " mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td class="td" mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
     <!-- Position Column -->
     <ng-container matColumnDef="id">
-      <th class="thead-light  th " mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let element"> 
-        <div class="media-body">
-          <input
-            style="margin-right: 1rem"
-            type="checkbox"
-            ng-model="checkboxModel.value2"
-            g-true-value="'YES'"
-            ng-false-value="'NO'"
-          />
-          <span class="mb-0 text-sm">{{element.id}}</span>
-        </div>
-    </td>
+      <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+      <td mat-cell *matCellDef="let element"> {{element.problemid}} </td>
     </ng-container>
-  
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th  class="thead-light th " mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-  
+ 
     <!-- Weight Column -->
-    <ng-container matColumnDef="grupo">
-      <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Grupo </th>
-      <td mat-cell *matCellDef="let element"> {{element.grupo}} </td>
+    <ng-container matColumnDef="tags">
+      <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Tags </th>
+      <td mat-cell *matCellDef="let element"> {{element.tags}} </td>
     </ng-container>
   
     <!-- Symbol Column -->
     <ng-container matColumnDef="juez">
       <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
-      <td mat-cell *matCellDef="let element"> {{element.juez}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.judgeName}} </td>
     </ng-container>
     <ng-container matColumnDef="fecha">
-      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+      <th  class="thead-flight th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
       <td mat-cell *matCellDef="let element"> 
         <div class="media-body">
         
-        <span>{{element.fecha}} </span>
+        <span>{{element.date}} </span>
         <div ngbDropdown placement="bottom-right" class="editButton" >
           <a
             class="btn btn-sm btn-icon-only text-light"
@@ -207,14 +201,14 @@
         </div>
       </td>
     </ng-container>
-
+    
     <tr  class="thead-light " mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+    <tr mat-row 
+    *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>
-
-
 <div class="recargar" style="width: 100%">
   <div class="container">
     <div class="row" style="width: 100%">
