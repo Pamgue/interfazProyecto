@@ -82,22 +82,23 @@
   >
     <ng-container matColumnDef="select">
       <th class="thead-light th " mat-header-cell *matHeaderCellDef>
-        <mat-checkbox
+        <!-- <mat-checkbox
           (change)="$event ? masterToggle() : null"
           [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()"
           [aria-label]="checkboxLabel()"
         >
-        </mat-checkbox>
+        </mat-checkbox> -->
       </th>
+      
       <td class="td" mat-cell *matCellDef="let row">
-        <mat-checkbox
+        <!--<mat-checkbox
           (click)="$event.stopPropagation()"
           (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)"
           [aria-label]="checkboxLabel(row)"
         >
-        </mat-checkbox>
+        </mat-checkbox>-->
 
         <a
         mat-mini-fab 

@@ -37,8 +37,6 @@ export class GroupsComponent implements OnInit {
   //Aqui se guarda lo devuelto por el servicio para las etiquetas del filtrado (dropdown)
   tagResult: Array<any> = [];
   
-  dataStudentsList = new MatTableDataSource([]);
-
   // Modelo para el select
   selection = new SelectionModel<any>(true, []);
 
@@ -61,25 +59,25 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    //this.dataStudentsList.paginator = this.paginator;
-    //this.dataStudentsList.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort; 
   }
   expandContent = true;
 
+  /*
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  
   masterToggle() {
     this.isAllSelected() ?
         this.selection.clear() :
         this.dataSource.data.forEach(row => this.selection.select(row));
   }
+  */
   
   toggleTableRows(element) {
     this.isTableExpanded = !this.isTableExpanded;
@@ -92,7 +90,7 @@ export class GroupsComponent implements OnInit {
       
     });   
   }
-
+/*
   checkboxLabel(row?: Element): string {
     if (!row) {
 
@@ -101,6 +99,7 @@ export class GroupsComponent implements OnInit {
 
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id }`;
   }
+*/
 
   getKeys(object): string[] {
    //console.log(object);
@@ -151,9 +150,15 @@ export class GroupsComponent implements OnInit {
 
  //Corregir, llega el body vacio entonces no hace el filtrado
  filterGroups(tags: Array<string>) {
-   console.log(tags);
-   var tagsString = tags.map(String).join(';');
-   this.getAllGroups(tagsString);
+   var tagIds : Array<string> = [];
+   tags.forEach(
+      value => {
+         const foundIndex = this.tagResult.findIndex(x => x.name === value);
+         tagIds.push(this.tagResult[foundIndex].id);
+      }
+   )
+   var tagIdsString = tagIds.map(String).join(';');
+   this.getAllGroups(tagIdsString);
  }
 
 }
