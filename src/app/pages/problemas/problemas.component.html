@@ -31,40 +31,18 @@
             <button
               class="btn btn-icon btn-2 btn-primary mr-auto mb-1"
               type="button"
-              (click)="updateLabel('etiquetado')"
+              (click)="onClick('etiquetado')"
             >
               <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-              <span class="btn-inner--text">Agrupar</span>
+              <span class="btn-inner--text">Etiquetar</span>
             </button>
             <button
               class="btn btn-icon btn-2 btn-primary mr-auto my-2"
               type="button"
-              (click)="updateLabel('desetiquetado')"
+              (click)="onClick('desetiquetado')"
             >
               <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-              <span class="btn-inner--text">Desagrupar</span>
-            </button>
-          </div>
-          <div class="col-3 d-flex flex-column">
-            <button
-              class="btn btn-icon btn-2 btn-primary"
-              type="button"
-              (click)="onClickMe()"
-            >
-              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
-              <span class="btn-inner--text">Agregar estudiante</span>
-            </button>
-          </div>
-          <div class="col-3 d-flex flex-column">
-            <button
-              class="btn btn-icon btn-2 btn-primary"
-              type="button"
-              (click)="onClickMe()"
-            >
-              <span class="btn-inner--icon"
-                ><i class="ni ni-fat-delete"></i
-              ></span>
-              <span class="btn-inner--text">Eliminar estudiante</span>
+              <span class="btn-inner--text">Desetiquetar</span>
             </button>
           </div>
         </div>
@@ -141,7 +119,7 @@
 <div class="container-fluid mt--7 table">
   <div class="card shadow">
     <div class="card-header border-0">
-      <h3 class="mb-0">Tabla de estudiantes
+      <h3 class="mb-0">Tabla de problemas
       </h3>
     </div>
   </div>

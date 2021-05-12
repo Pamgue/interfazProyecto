@@ -14,6 +14,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 
 export interface PeriodicElement {
@@ -49,6 +50,8 @@ export class ProblemasComponent implements OnInit {
 
 
   selection = new SelectionModel<any>(true, []);
+
+
   displayedColumns: string[] = ['select','id', 'tags', 'juez', 'fecha'];
 
   dataSource = new MatTableDataSource();
@@ -66,8 +69,6 @@ export class ProblemasComponent implements OnInit {
 
   tags = new FormControl();
 
-  //tagsList: string[] = ['Python', 'Intro', 'Poo', 'Geometria', 'Recursividad', 'Fibonacci'];
-
   problemsList: Array<any> = [];
 
   selectedTags : Array<any> = [];
@@ -78,7 +79,6 @@ export class ProblemasComponent implements OnInit {
 
   judges = new FormControl();
 
-  //groupList: string[] = ['group1', 'group2', 'group3', 'group3', 'group4', 'group5'];
 
   judgesList: Array<any> = [];
 
@@ -125,20 +125,63 @@ export class ProblemasComponent implements OnInit {
     // }
   }
 
-  onClickMe() {
+  onClick(value : String){
+    if(this.tags.value!=null){
+      var tagIds : Array<string> = [];
+      this.tags.value.forEach(
+        value => {
+           const foundIndex = this.tagsList.findIndex(x => x.name === value);
+           tagIds.push(this.tagsList[foundIndex].id);
+        }
+     )
+     var tagIdsString = tagIds.map(String).join(';');
+    }
+    else
+      var tagIdsString = '';
 
-    console.log('<Anadir Problema>')
+    var selectProblems: Array<any> = this.selection.selected;
+    console.log(this.tags.value);
+    var problemsIds : Array<string> = [];
+    selectProblems.forEach(problem => 
+      problemsIds.push(problem.UUID)
+      );
+    console.log(problemsIds);
+    var problemIdsString = problemsIds.map(String).join(';');
+
+    if(value == 'etiquetado') this.addTags(problemIdsString,tagIdsString);
+
+    if(value == 'desetiquetado') this.deleteTags(problemIdsString,tagIdsString);
+
   }
+
+  addTags( problems : string , tags : string) {
+    if (tags === null){
+      tags = "";
+    }
+    if (problems === null){
+    problems = "";
+    }
+    this.problemsService.addTagToProblem(tags,problems);
+    this.getProblems(null,null);
+  }
+
+  deleteTags( problems : string , tags : string) {
+    if (tags === null){
+      tags = "";
+    }
+    if (problems === null){
+    problems = "";
+    }
+    this.problemsService.removeTagFromProblem(tags,problems);
+    this.getProblems(null,null);
+  }
+
 
   labelFilter(value: String){
     this.actualLabel= value;
-    console.log(value)
-  
   }
+
   filterProblems(action:String){
-    console.log('check');
-    console.log(this.tags.value);
-    console.log(this.judges.value);
 
     if(this.tags.value!=null){
       var tagIds : Array<string> = [];
