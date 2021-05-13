@@ -5,11 +5,7 @@
       <div class="col-12">
         <div class="card mb-4 mb-xl-3 d-flex flex-row py-4 cardButtons">
           <div class="col-3 d-flex flex-column middleButtons">
-            <button
-              class="btn btn-icon btn-2 btn-primary"
-              type="button"
-              (click)="onClickMe()"
-            >
+            <button class="btn btn-icon btn-2 btn-primary" type="button" (click)="openDialog('Agregar', 'group',{})">
               <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
               <span class="btn-inner--text">Crear Grupo</span>
             </button>
@@ -123,34 +119,21 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td class="td" mat-cell *matCellDef="let element">{{ element.name }}</td>
-    </ng-container>
-
-    <ng-container matColumnDef="edit">
-      <th mat-header-cell *matHeaderCellDef></th>
+      <th class="thead-light th" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
       <td class="td" mat-cell *matCellDef="let element">
-            <div ngbDropdown placement="bottom-right"  >
-          <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
-            <i class="fas fa-ellipsis-v"></i>
-          </a>
-          <div
-            ngbDropdownMenu
-            class="dropdown-menu-right dropdown-menu-arrow"
-          >
-            <a class="dropdown-item" href="javascript:void(0)"
-              >Editar</a
-            >
-            <a class="dropdown-item" href="javascript:void(0)"
-              >Eliminar</a
-
-            >
-            <a class="dropdown-item" href="javascript:void(0)"
-              >Exportar</a
-            >
+        <div class="media-body">
+          <span>{{element.name}} </span>
+          <div ngbDropdown placement="bottom-right" class="editButton">
+            <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+              <i class="fas fa-ellipsis-v"></i>
+            </a>
+            <div ngbDropdownMenu class="dropdown-menu-right dropdown-menu-arrow">
+              <a class="dropdown-item" (click)="openDialog('Editar', 'group', element)" href="javascript:void(0)">Editar</a>
+              <a class="dropdown-item" (click)="openDialog('Eliminar', 'group', element)" href="javascript:void(0)">Eliminar</a>
+              <a class="dropdown-item" (click)="openDialog('Exportar', 'group', element)" href="javascript:void(0)">Exportar</a>
+            </div>
           </div>
         </div>
-
       </td>
     </ng-container>
 

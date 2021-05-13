@@ -11,8 +11,8 @@ import {
 export class GroupsService {
   constructor(private http: HttpClient) { }
 
-  exportGroup(uniqueGroupID: string): Observable<any> {
-    return this.http.get<any>('http://localhost:3000/group/export/' + uniqueGroupID);
+  exportGroup(uniqueGroupID: string) {
+    this.http.get<any>('http://localhost:3000/group/export/' + uniqueGroupID).subscribe();
   }
 
   getGroupsNames(): Observable<any> {

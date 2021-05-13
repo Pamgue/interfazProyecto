@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupsService } from '../../services/groups.service';
 import { LabelsService } from '../../services/labels.service';
+import { DatePipe } from '@angular/common';
 
 import { ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
@@ -10,6 +11,7 @@ import { SelectionModel} from '@angular/cdk/collections';
 import { FormControl } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
+import { DialogBoxComponent } from '../../components/dialog-box/dialog-box.component';
 
 
 
@@ -17,6 +19,7 @@ import { MatSort } from '@angular/material/sort';
   selector: 'app-groups',
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.scss'],
+  providers: [DatePipe],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
@@ -47,11 +50,11 @@ export class GroupsComponent implements OnInit {
   dataSource = new MatTableDataSource();
 
   // Elementos que se van a mostrar en la tabla
-  displayedGroupsColumnsList: string[] = ['select','name', 'edit'];
+  displayedGroupsColumnsList: string[] = ['select','name'];
   displayedStudentsColumnsList: string[] = ['studentid','name','lastname', 'CodeForces', 'CodeChef', 'UVA'];
   isTableExpanded=false;
 
-  constructor(private groupsService: GroupsService, private labelsService: LabelsService, public dialog: MatDialog) {
+  constructor(private groupsService: GroupsService, private labelsService: LabelsService, public dialog: MatDialog, private datePipe: DatePipe) {
    this.getTagNames();
    this.getAllGroups(null);
  }
@@ -144,9 +147,9 @@ export class GroupsComponent implements OnInit {
  }
 
  refreshTable(){
-   this.dataSource.sort = this.sort;
-   this.dataSource.paginator = this.paginator;
- }
+  this.dataSource.sort = this.sort;
+  this.dataSource.paginator = this.paginator;
+}
 
  //Corregir, llega el body vacio entonces no hace el filtrado
  filterGroups(tags: Array<string>) {
@@ -160,6 +163,63 @@ export class GroupsComponent implements OnInit {
    var tagIdsString = tagIds.map(String).join(';');
    this.getAllGroups(tagIdsString);
  }
+
+  openDialog(action, page, obj) {
+    obj.action = action;
+    obj.page = page;
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '250px',
+      data:obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event == 'Agregar'){
+        this.addRowData(result.data);
+      }else if(result.event == 'Editar'){
+        this.updateRowData(result.data);
+      }else if(result.event == 'Eliminar'){
+        this.deleteRowData(result.data);
+      }else if(result.event == 'Exportar'){
+        this.exportRowData(result.data);
+      }
+    });
+  }
+
+  addRowData(row_obj){
+    var myDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.groupsService.addGroup(row_obj.name).subscribe(
+      data => {
+        this.allGroupsResult.unshift({id: data.id, isExpanded: false, name: data.name, students: null})
+      },
+      error => console.log("Error: ", error),
+      () => this.refreshTable()
+    );
+  }
+
+  updateRowData(row_obj){
+    this.groupsService.updateGroup(row_obj.id, row_obj.name);
+    const foundIndex = this.allGroupsResult.findIndex(x => x.id === row_obj.id);
+    this.allGroupsResult[foundIndex].name = row_obj.name;
+
+    this.refreshTable();
+    return true;
+  }
+
+  deleteRowData(row_obj){
+    this.groupsService.deleteGroup(row_obj.id);
+    const foundIndex = this.allGroupsResult.findIndex(x => x.id === row_obj.id);
+    this.allGroupsResult.splice(foundIndex, 1);
+
+    this.refreshTable();
+    return true;
+  }
+
+  exportRowData(row_obj){
+    //this.groupsService.exportGroup(row_obj.id);
+    return true;
+  }
+
+
 
 }
 

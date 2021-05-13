@@ -15,10 +15,13 @@
     </ng-container>
   </ng-template>
   <ng-template #groupTemplate>
-    <ng-container *ngIf="action == 'Agregar' || action == 'Editar'; else deleteTemplate">
+    <ng-container *ngIf="action == 'Agregar' || action == 'Editar'">
       <mat-form-field >
         <input placeholder="{{action}} nombre" matInput [(ngModel)]="local_data.name">
       </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="action == 'Exportar'; else deleteTemplate"> 
+      ¿Exportar en un archivo CSV el grupo: {{local_data.name}}?
     </ng-container>
   </ng-template>
   <ng-template #problemTemplate>
@@ -37,7 +40,7 @@
   </ng-template>
 
   <ng-template #deleteTemplate>
-    Esta seguro de realizar esta acción?
+    ¿Está seguro de que desea realizar esta acción?
   </ng-template>
 
 </div>
