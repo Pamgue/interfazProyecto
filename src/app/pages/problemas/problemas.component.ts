@@ -61,6 +61,8 @@ export class ProblemasComponent implements OnInit {
     this.displayedColumns = this.displayedColumns;
     this.getTagNames();
     this.getJudgesNames();
+    console.log('constructor');
+    //this.onSync();
     this.getProblems(null,null);
   }
 
@@ -82,6 +84,20 @@ export class ProblemasComponent implements OnInit {
 
   judgesList: Array<any> = [];
 
+  onSync(){
+    console.log('testing sync');
+    this.problemsService.getSync().subscribe(
+      data => {
+        //this.tagsList = data;
+        console.log('done');
+ 
+      },
+
+      error => console.log("Error: ", error),
+    );
+
+    this.getProblems(null,null);
+  }
 
   toggleTableRows(element) {
     this.isTableExpanded = !this.isTableExpanded;

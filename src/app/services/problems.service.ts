@@ -13,6 +13,7 @@ export class ProblemsService {
 
   // deberia retornar o que espere aca? - no devuelve nada
   getSync(): Observable<any> {
+    console.log('controller');
     return this.http.get<any>('http://localhost:3000/problem/sync');
   }
 

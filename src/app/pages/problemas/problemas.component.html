@@ -191,16 +191,10 @@
   <div class="container">
     <div class="row" style="width: 100%">
       <div class="col-6 button">
-        <button type="button" class="btn btn-secondary button">
+        <button type="button"
+        (click)="onSync()" 
+        class="btn btn-secondary button">
           <i class="fas fa-redo-alt fa-4x"></i>
-        </button>
-      </div>
-      <div class="col-6 saveButtons">
-        <button type="button" class="btn btn-outline-default saveButtons">
-          Cancelar
-        </button>
-        <button type="button" class="btn btn-outline-primary saveButtons">
-          Guardar
         </button>
       </div>
     </div>
