@@ -59,10 +59,8 @@ export class StudentsService {
   }
 
   getAllStudent(uniqueGroupID: string): Observable<any> {
-    const options = {
-      body : { uniqueGroupID: uniqueGroupID }
-    };
-    return this.http.post<any>('http://localhost:3000/student/getall', options);
+    const body = {uniqueGroupID : uniqueGroupID};
+    return this.http.post<any>('http://localhost:3000/student/getall', body);
   }
 
   updateStudent(uniqueStudentID: string, studentID: string, studentName: string, studentLastName: string, judges: string) {

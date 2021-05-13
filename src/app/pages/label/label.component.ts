@@ -55,6 +55,7 @@ export class LabelComponent implements OnInit {
   getAlltags() {
     this.labelsService.getAllTags().subscribe(
       data => {
+        console.log(data)
         this.allTagsResult = data;
       },
       error => console.log("Error: ", error),

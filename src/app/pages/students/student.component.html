@@ -7,22 +7,22 @@
           <div class="col-2">
             <div class="d-inline-block">
               <mat-form-field appearance="fill">
-                <mat-label>Toppings</mat-label>
-                <mat-select [formControl]="toppings" multiple>
+                <mat-label>Grupos</mat-label>
+                <mat-select [formControl]="groups" multiple>
                   <mat-select-trigger>
-                    {{ toppings.value ? toppings.value[0] : "" }}
+                    {{ groups.value ? groups.value[0] : "" }}
                     <span
-                      *ngIf="toppings.value?.length > 1"
+                      *ngIf="groups.value?.length > 1"
                       class="example-additional-selection"
                     >
-                      (+{{ toppings.value.length - 1 }}
-                      {{ toppings.value?.length === 2 ? "other" : "others" }})
+                      (+{{ groups.value.length - 1 }}
+                      {{ groups.value?.length === 2 ? "other" : "others" }})
                     </span>
                   </mat-select-trigger>
                   <mat-option
-                    *ngFor="let topping of toppingList"
-                    [value]="topping"
-                    >{{ topping }}</mat-option
+                    *ngFor="let group of groupsList"
+                    [value]="group.name"
+                    >{{ group.name }}</mat-option
                   >
                 </mat-select>
               </mat-form-field>
@@ -32,7 +32,7 @@
             <button
               class="btn btn-icon btn-2 btn-primary mr-auto mb-1"
               type="button"
-              (click)="updateLabel('etiquetado')"
+              (click)="onAddGroup('agrupar')"
             >
               <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
               <span class="btn-inner--text">Agrupar</span>
@@ -40,7 +40,7 @@
             <button
               class="btn btn-icon btn-2 btn-primary mr-auto my-2"
               type="button"
-              (click)="updateLabel('desetiquetado')"
+              (click)="onAddGroup('desagrupar')"
             >
               <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
               <span class="btn-inner--text">Desagrupar</span>
@@ -50,7 +50,7 @@
             <button
               class="btn btn-icon btn-2 btn-primary"
               type="button"
-              (click)="onClickMe()"
+              (click)="openDialog('Agregar', 'student',{})"
             >
               <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
               <span class="btn-inner--text">Agregar estudiante</span>
@@ -85,26 +85,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
-        <div class="col-2 bg-transparent">
-          <mat-form-field appearance="fill">
-            <mat-label>Tags</mat-label>
-            <mat-select [formControl]="tags" multiple>
-              <mat-select-trigger>
-                {{ tags.value ? tags.value[0] : "" }}
-                <span
-                  *ngIf="tags.value?.length > 1"
-                  class="example-additional-selection"
-                >
-                  (+{{ tags.value.length - 1 }}
-                  {{ tags.value?.length === 2 ? "other" : "others" }})
-                </span>
-              </mat-select-trigger>
-              <mat-option *ngFor="let tags of tagsList" [value]="tags">{{
-                tags
-              }}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+
         <div class="col-2">
           <mat-form-field appearance="fill">
             <mat-label>Groups</mat-label>
@@ -119,8 +100,8 @@
                   {{ groups.value?.length === 2 ? "other" : "others" }})
                 </span>
               </mat-select-trigger>
-              <mat-option *ngFor="let group of groupsList" [value]="group">{{
-                group
+              <mat-option *ngFor="let group of groupsList" [value]="group.name">{{
+                group.name
               }}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -153,19 +134,26 @@
   </div>
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+    <ng-container matColumnDef="select">
+      <th class="thead-light th " mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </th>
+      <td class="td" mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+        </mat-checkbox>
+
+      </td>
+    </ng-container>
     <!-- Position Column -->
-    <ng-container matColumnDef="id">
+    <ng-container matColumnDef="studentId">
       <th class="thead-light  th " mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
       <td mat-cell *matCellDef="let element"> 
         <div class="media-body">
-          <input
-            style="margin-right: 1rem"
-            type="checkbox"
-            ng-model="checkboxModel.value2"
-            g-true-value="'YES'"
-            ng-false-value="'NO'"
-          />
-          <span class="mb-0 text-sm">{{element.id}}</span>
+
+          <span class="mb-0 text-sm">{{element.studentId}}</span>
         </div>
     </td>
     </ng-container>
@@ -173,26 +161,35 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th  class="thead-light th " mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.name}}  {{element.lastName}} </td>
     </ng-container>
+
   
     <!-- Weight Column -->
     <ng-container matColumnDef="grupo">
       <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Grupo </th>
-      <td mat-cell *matCellDef="let element"> {{element.grupo}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.Groups}} </td>
     </ng-container>
   
     <!-- Symbol Column -->
-    <ng-container matColumnDef="juez">
-      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
-      <td mat-cell *matCellDef="let element"> {{element.juez}} </td>
+    <ng-container matColumnDef="UVA">
+      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de usuario de UVA  </th>
+      <td mat-cell *matCellDef="let element"> {{element.UVA}} </td>
+    </ng-container>
+    <ng-container matColumnDef="codeChef">
+      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de usuario de CodeChef </th>
+      <td mat-cell *matCellDef="let element"> {{element.CodeChef}} </td>
+    </ng-container>
+    <ng-container matColumnDef="codeForces">
+      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de usuario de CodeForces  </th>
+      <td mat-cell *matCellDef="let element"> {{element.CodeForces}} </td>
     </ng-container>
     <ng-container matColumnDef="fecha">
-      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de creación</th>
       <td mat-cell *matCellDef="let element"> 
         <div class="media-body">
         
-        <span>{{element.fecha}} </span>
+        <span>{{element.creationDate}} </span>
         <div ngbDropdown placement="bottom-right" class="editButton" >
           <a
             class="btn btn-sm btn-icon-only text-light"

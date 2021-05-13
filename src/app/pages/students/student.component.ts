@@ -5,27 +5,19 @@ import {FormControl} from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { LabelsService } from 'src/app/services/labels.service';
+import { GroupsService } from 'src/app/services/groups.service';
+import { StudentsService } from 'src/app/services/students.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.component';
+import { DatePipe } from '@angular/common';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Variable } from '@angular/compiler/src/render3/r3_ast';
+import { element } from 'protractor';
+
 declare const google: any;
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {id: 1, name: 'Hydrogen', grupo: 1.0079, juez: 'H', fecha: '11/04/2020'},
-  {id: 2, name: 'Helium', grupo: 4.0026, juez: 'He', fecha: '11/04/2020'},
-  {id: 3, name: 'Lithium', grupo: 6.941, juez: 'Li', fecha: '11/04/2020'},
-  {id: 4, name: 'Beryllium', grupo: 9.0122, juez: 'Be', fecha: '11/04/2020'},
-  {id: 5, name: 'Boron', grupo: 10.811, juez: 'B', fecha: '11/04/2020'},
-  {id: 6, name: 'Carbon', grupo: 12.0107, juez: 'C', fecha: '11/04/2020'},
-  {id: 7, name: 'Nitrogen', grupo: 14.0067, juez: 'N', fecha: '11/04/2020'},
-  {id: 8, name: 'Oxygen', grupo: 15.9994, juez: 'O', fecha: '11/04/2020'},
-  {id: 9, name: 'Fluorine', grupo: 18.9984, juez: 'F', fecha: '11/04/2020'},
-  {id: 10, name: 'Neon', grupo: 20.1797, juez: 'Ne', fecha: '11/04/2020'},
-];
-export interface PeriodicElement {
-  name: string;
-  id: number;
-  grupo: number;
-  juez: string;
-  fecha: string;
-}
+
 @NgModule({
   imports: [MaterialModule],
 })
@@ -33,80 +25,193 @@ export interface PeriodicElement {
 @Component({
   selector: 'app-maps',
   templateUrl: './student.component.html',
-  styleUrls: ['./student.component.scss']
+  styleUrls: ['./student.component.scss'],
+  providers: [ DatePipe]
 })
 
 export class StudentComponent implements OnInit {
-
-  constructor() { }
-  panelOpenState = false;
-
-  toppings = new FormControl();
-
-  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-
-  tags = new FormControl();
-
-  tagsList: string[] = ['Tag1', 'Tag2', 'Tag3', 'Tag3', 'Tag4', 'Tag5'];
-  groups = new FormControl();
-
-  groupsList: string[] = ['group1', 'group2', 'group3', 'group3', 'group4', 'group5'];
-
-  ngOnInit() {
-    let map = document.getElementById('map-canvas');
-    let lat = map.getAttribute('data-lat');
-    let lng = map.getAttribute('data-lng');
-
-    var myLatlng = new google.maps.LatLng(lat, lng);
-    var mapOptions = {
-        zoom: 12,
-        scrollwheel: false,
-        center: myLatlng,
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-        styles: [
-          {"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},
-          {"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2f2f2"}]},
-          {"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},
-          {"featureType":"road","elementType":"all","stylers":[{"saturation":-100},{"lightness":45}]},
-          {"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},
-          {"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},
-          {"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},
-          {"featureType":"water","elementType":"all","stylers":[{"color":'#5e72e4'},{"visibility":"on"}]}]
-    }
-
-    map = new google.maps.Map(map, mapOptions);
-
-    var marker = new google.maps.Marker({
-        id: myLatlng,
-        map: map,
-        animation: google.maps.Animation.DROP,
-        title: 'Hello World!'
-    });
-
-    var contentString = '<div class="info-window-content"><h2>Argon Dashboard</h2>' +
-        '<p>A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</p></div>';
-
-    var infowindow = new google.maps.InfoWindow({
-        content: contentString
-    });
-
-    google.maps.event.addListener(marker, 'click', function() {
-        infowindow.open(map, marker);
-    });
-  }
-
-  displayedColumns: string[] = ['id', 'name', 'grupo', 'juez', 'fecha'];
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
 
   @ViewChild(MatSort) sort: MatSort;
 
+
+  panelOpenState = false;
+
+  tags = new FormControl();
+
+  tagsList: Array<any>=[];
+  groups = new FormControl();
+
+  groupsList: Array<any> = [];
+
+  displayedColumns: string[] = ['select','studentId', 'name', 'grupo', 'UVA', 'codeChef','codeForces', 'fecha'];
+
+  dataSource = new MatTableDataSource();
+
+  allStudentsResult: Array<any> = [];
+  selection = new SelectionModel<any>(true, []);
+
+  constructor(public dialog: MatDialog,private studentsService: StudentsService,private labelsService: LabelsService,private groupsService: GroupsService, private datePipe: DatePipe) { 
+    this.getAlltags();
+    this.getAllGroups( null);
+    this.getAllStudents(null);
+  }
+  ngOnInit(): void {
+   
+  }
+
+  getAlltags() {
+    this.labelsService.getAllTags().subscribe(
+      data => {
+        this.tagsList = data;
+      },
+      error => console.log("Error: ", error),
+      );
+  }
+
+  getAllGroups(tags: string) {
+    if (tags === null){
+       tags = "";
+    }
+    this.groupsService.getAllGroups(tags).subscribe(
+      data => {
+        this.groupsList = data;
+
+      },
+      error => console.log("Error: ", error),
+  
+    );
+  }
+  getAllStudents(groupId: string) {
+    if (groupId === null){
+      groupId = "";
+  
+    }
+    this.studentsService.getAllStudent(groupId).subscribe(
+      data => {
+        this.allStudentsResult = data;
+        
+      },
+      error => console.log("Error: ", error),
+      () => this.refreshRows()
+    );
+  }
+
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
+  refreshTable(){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+  refreshRows(){
+    this.dataSource = new MatTableDataSource(this.allStudentsResult);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
 
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    this.isAllSelected() ?
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
+  }
+
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
+  }
+
+  onAddGroup(value : String){
+    if(this.groups.value!=null){
+      var groupsIds : Array<string> = [];
+      this.groups.value.forEach(
+        value => {
+           const foundIndex = this.groupsList.findIndex(x => x.name === value);
+           groupsIds.push(this.groupsList[foundIndex].id);
+
+        }
+     )
+     var groupIdsString = groupsIds.map(String).join(';');
+     
+    }
+  
+  else
+    var tagIdsString = '';
+
+  var selectStudents: Array<any> = this.selection.selected;
+
+  var studentsIds : Array<string> = [];
+  selectStudents.forEach(student => 
+    studentsIds.push(student.id)
+    );
+
+  var studentIdsString = studentsIds.map(String).join(';');
+  console.log(studentIdsString);
+    const selectedGroup = this.groups.value;
+   
+ 
+  if(value == 'agrupar') this.addGroup(studentIdsString,groupIdsString,selectedGroup );
+
+  if(value == 'desagrupar') this.removeGroup(studentIdsString,groupIdsString );
+  }
+
+  addGroup(studentID :string, groupID:string, selectedGroups){
+    this.studentsService.addStudentToGroup(studentID, groupID);
+    const foundIndex = this.allStudentsResult.findIndex(x => x.id === studentID);
+    selectedGroups.forEach(element => {
+      if(!this.allStudentsResult[foundIndex].Groups.includes( element)){
+        this.allStudentsResult[foundIndex].Groups = [...this.allStudentsResult[foundIndex].Groups, element];
+      }
+      
+    });
+
+    this.refreshTable();
+    return true;
+  }
+  
+  removeGroup(studentID :string, groupID:string){
+    this.studentsService.removeStudentFromGroup(studentID, groupID);
+    
+    this.refreshRows();
+    return true;
+  }
+  openDialog(action, page, obj) {
+    obj.action = action;
+    obj.page = page;
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '250px',
+      data:obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event == 'Agregar'){
+        this.addRowData(result.data);
+      }
+  
+    });
+  }
+  addRowData(result){
+    var myDate = this.datePipe.transform( new Date(), 'yyyy-MM-dd');
+    var judges = [result.codeForces, result.codeChef,result.uva ]
+    var stringjudge =judges.join(';')
+    this.studentsService.addStudent(result.studentID,result.name, result.lastName, stringjudge).subscribe(
+      data => {
+      //addStudents solo devuelve el id
+        this.allStudentsResult.unshift({id: data.id, studentId: data.studentid, name: result.name,lastName: result.lastName, creationDate: myDate, Groups: data.Groups, UVA: result.uva, CodeChef: result.codeChef, CodeForces: result.codeForces });
+      },
+      error => console.log("Error: ", error),
+      () => this.refreshTable()
+    );
+  }
 }
 

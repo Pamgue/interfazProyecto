@@ -34,7 +34,22 @@
   <ng-template #studentTemplate>
     <ng-container *ngIf="action == 'Agregar' || action == 'Editar'; else deleteTemplate">
       <mat-form-field >
+        <input placeholder="{{action}} id" matInput [(ngModel)]="local_data.studentID">
+      </mat-form-field>
+      <mat-form-field >
         <input placeholder="{{action}} nombre" matInput [(ngModel)]="local_data.name">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Apellido" matInput [(ngModel)]="local_data.lastName">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Juez UVA" matInput [(ngModel)]="local_data.uva">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Juez CodeChef" matInput [(ngModel)]="local_data.codeChef">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Juez CodeForces" matInput [(ngModel)]="local_data.codeForces">
       </mat-form-field>
     </ng-container>
   </ng-template>
