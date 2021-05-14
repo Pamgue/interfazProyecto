@@ -51,54 +51,39 @@ export class ProblemasComponent implements OnInit {
 
   selection = new SelectionModel<any>(true, []);
 
-
   displayedColumns: string[] = ['select','id', 'tags', 'juez', 'fecha'];
 
   dataSource = new MatTableDataSource();
+
   isTableExpanded=false;
+
+  actualLabel: String;
+
+  panelOpenState = false;
+
+  //form and array button add/delete tags
+  tags = new FormControl();
+  tagsList : Array<any> = [];
+
+  problemsList: Array<any> = [];
+
+  //form and arrays filters
+
+  selectedTags = new FormControl();
+  selectedTagsList : Array<any> = [];
+
+  judges = new FormControl();
+  judgesList: Array<any> = [];
 
   constructor(private problemsService: ProblemsService, private labelsService: LabelsService, public dialog: MatDialog) {
     this.displayedColumns = this.displayedColumns;
     this.getTagNames();
     this.getJudgesNames();
-    console.log('constructor');
-    //this.onSync();
     this.getProblems(null,null);
+    
   }
 
-  actualLabel: String;
-  panelOpenState = false;
-
-  tags = new FormControl();
-
-  problemsList: Array<any> = [];
-
-  selectedTags : Array<any> = [];
-
-  selectedJudges : Array<any> = [];
-
-  tagsList : Array<any> = [];
-
-  judges = new FormControl();
-
-
-  judgesList: Array<any> = [];
-
-  onSync(){
-    console.log('testing sync');
-    this.problemsService.getSync().subscribe(
-      data => {
-        //this.tagsList = data;
-        console.log('done');
- 
-      },
-
-      error => console.log("Error: ", error),
-    );
-
-    this.getProblems(null,null);
-  }
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
   toggleTableRows(element) {
     this.isTableExpanded = !this.isTableExpanded;
 
@@ -131,17 +116,42 @@ export class ProblemasComponent implements OnInit {
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id}`;
   }
 
-
-  ngOnInit() {
-    // if (!localStorage.getItem('foo')) { 
-    //   localStorage.setItem('foo', 'no reload') 
-    //   location.reload() 
-    // } else {
-    //   localStorage.removeItem('foo') 
-    // }
+  refreshTable(){
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
+  labelFilter(value: String){
+    this.actualLabel= value;
+  }
+
+  refreshRows(){
+    this.dataSource = new MatTableDataSource(this.problemsList);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnInit() {
+
+  }
+
+
+  //refresh button
+
+  onSync(){
+    this.problemsService.getSync().subscribe();
+    this.getProblems(null,null);
+  }
+
+  //tag and untag action
   onClick(value : String){
+
     if(this.tags.value!=null){
       var tagIds : Array<string> = [];
       this.tags.value.forEach(
@@ -156,18 +166,17 @@ export class ProblemasComponent implements OnInit {
       var tagIdsString = '';
 
     var selectProblems: Array<any> = this.selection.selected;
-    console.log(this.tags.value);
     var problemsIds : Array<string> = [];
+
     selectProblems.forEach(problem => 
       problemsIds.push(problem.UUID)
       );
-    console.log(problemsIds);
+
     var problemIdsString = problemsIds.map(String).join(';');
 
     if(value == 'etiquetado') this.addTags(problemIdsString,tagIdsString);
 
     if(value == 'desetiquetado') this.deleteTags(problemIdsString,tagIdsString);
-
   }
 
   addTags( problems : string , tags : string) {
@@ -177,8 +186,21 @@ export class ProblemasComponent implements OnInit {
     if (problems === null){
     problems = "";
     }
+
     this.problemsService.addTagToProblem(tags,problems);
-    this.getProblems(null,null);
+    this.addTagsOnProblems();
+  }
+
+  addTagsOnProblems(){
+    this.selection.selected.forEach(
+      problem => {
+      var foundIndex = this.problemsList.findIndex(x => x.UUID === problem.UUID);
+      var tagsArray = this.problemsList[foundIndex].tags;
+      var temptags = this.addNewTags(tagsArray,this.tags.value);
+      this.problemsList[foundIndex].tags = temptags;      
+      }
+      );
+      this.refreshTable();
   }
 
   deleteTags( problems : string , tags : string) {
@@ -189,13 +211,49 @@ export class ProblemasComponent implements OnInit {
     problems = "";
     }
     this.problemsService.removeTagFromProblem(tags,problems);
-    this.getProblems(null,null);
+    //this.getProblems(null,null);
+    this.deleteTagsOnProblems();
   }
 
+  addNewTags(oldTags,selectedTags){
+    let newArray = [];
+    for(let i=0;i<oldTags.length;i++){
+      if(newArray.indexOf(oldTags[i]) == -1)
+      newArray.push(oldTags[i])
+    }
+    for(let i=0;i<selectedTags.length;i++){
+      if(newArray.indexOf(selectedTags[i]) == -1)
+      newArray.push(selectedTags[i])
+    }
+    return newArray;
+    }
 
-  labelFilter(value: String){
-    this.actualLabel= value;
+  deleteTagsOnProblems(){
+    this.selection.selected.forEach(
+      problem => {
+      var foundIndex = this.problemsList.findIndex(x => x.UUID === problem.UUID);
+      var tagsArray = this.problemsList[foundIndex].tags;
+      
+      var temptags = this.deleteOldTags(tagsArray,this.tags.value);
+      //temptags.shift();
+
+      this.problemsList[foundIndex].tags = temptags;      
+      }
+      );
+      this.refreshTable();
   }
+
+  deleteOldTags(oldTags,selectedTags){
+    
+    let newArray = [];
+    for(let i=0;i<oldTags.length;i++){
+      if(selectedTags.indexOf(oldTags[i]) == -1)
+      newArray.push(oldTags[i])
+    }
+    return newArray;
+    }
+
+  //filters judges and tags
 
   filterProblems(action:String){
 
@@ -203,8 +261,8 @@ export class ProblemasComponent implements OnInit {
       var tagIds : Array<string> = [];
       this.tags.value.forEach(
         value => {
-           const foundIndex = this.tagsList.findIndex(x => x.name === value);
-           tagIds.push(this.tagsList[foundIndex].id);
+           const foundIndex = this.selectedTagsList.findIndex(x => x.name === value);
+           tagIds.push(this.selectedTagsList[foundIndex].id);
         }
      )
      var tagIdsString = tagIds.map(String).join(';');
@@ -229,14 +287,12 @@ export class ProblemasComponent implements OnInit {
   this.getProblems(judgeIdsString,tagIdsString);
   }
 
-
+  
   getTagNames() {
-    console.log('TESTING GET TAGS NAMES');
     this.labelsService.getTagNames().subscribe(
       data => {
         this.tagsList = data;
-        console.log(this.tagsList);
- 
+        this.selectedTagsList = data; 
       },
 
       error => console.log("Error: ", error),
@@ -250,10 +306,8 @@ export class ProblemasComponent implements OnInit {
     if (judges === null){
     judges = "";
     }
-    console.log(judges);
     this.problemsService.getAllProblem(judges,tags).subscribe(
       data => {
-        console.log(data);
         this.problemsList = data;
       },
       error => console.log("Error: ", error),
@@ -261,30 +315,14 @@ export class ProblemasComponent implements OnInit {
     );
   }
 
-  refreshRows(){
-    this.dataSource = new MatTableDataSource(this.problemsList);
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
-
   getJudgesNames(){
-    console.log('TESTING GET JUDGES NAMES');
     this.problemsService.getJudges().subscribe(
       data => {
         this.judgesList = data;
-        console.log(this.judgesList);
 
       },
       error => console.log("Error: ", error),
     );
-
-
-
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
   }
 
 }
