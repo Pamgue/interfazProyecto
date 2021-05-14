@@ -39,14 +39,12 @@
     text-align: center;
     vertical-align: middle;
   }
-  td{
+  td {
     text-align: center;
     padding: 2em 0em !important;
     line-height: 2;
-
-
   }
-  ::ng-deep .mat-sort-header-container{
+  ::ng-deep .mat-sort-header-container {
     width: fit-content;
     margin: auto;
   }
@@ -69,14 +67,13 @@
   ::ng-deep .mat-option-text {
     text-align: right;
   }
-  ::ng-deep .mat-paginator{
-
+  ::ng-deep .mat-paginator {
     border-radius: 0 0 calc(0.375rem - 1px) calc(0.375rem - 1px);
     padding: 1.25rem 1.5rem;
     background-color: #fff;
     border-bottom: 1px solid lightgray;
   }
-  ::ng-deep .mat-paginator-navigation-next{
+  ::ng-deep .mat-paginator-navigation-next {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,9 +86,8 @@
     border-color: lightgray;
     border-style: solid;
     border-width: thin;
-
   }
-  ::ng-deep .mat-paginator-navigation-next :hover{
+  ::ng-deep .mat-paginator-navigation-next :hover {
     background-color: lightgray;
     display: flex;
     align-items: center;
@@ -103,7 +99,7 @@
     height: 36px;
     font-size: 0.875rem;
   }
-  ::ng-deep .mat-paginator-navigation-next :active{
+  ::ng-deep .mat-paginator-navigation-next :active {
     background-color: #5e72e4;
     border-color: #5e72e4;
     border-style: solid;
@@ -118,7 +114,7 @@
     height: 36px;
     font-size: 0.875rem;
   }
-  ::ng-deep .mat-paginator-navigation-previous{
+  ::ng-deep .mat-paginator-navigation-previous {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -131,9 +127,8 @@
     border-color: lightgray;
     border-style: solid;
     border-width: thin;
-
   }
-  ::ng-deep .mat-paginator-navigation-previous :hover{
+  ::ng-deep .mat-paginator-navigation-previous :hover {
     background-color: lightgray;
     display: flex;
     align-items: center;
@@ -145,7 +140,7 @@
     height: 36px;
     font-size: 0.875rem;
   }
-  ::ng-deep .mat-paginator-navigation-previous :active{
+  ::ng-deep .mat-paginator-navigation-previous :active {
     background-color: #5e72e4;
     border-color: #5e72e4;
     border-style: solid;
@@ -160,7 +155,7 @@
     height: 36px;
     font-size: 0.875rem;
   }
-  ::ng-deep .mat-paginator-navigation-last{
+  ::ng-deep .mat-paginator-navigation-last {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -174,7 +169,7 @@
     border-style: solid;
     border-width: thin;
   }
-  ::ng-deep .mat-paginator-navigation-first{
+  ::ng-deep .mat-paginator-navigation-first {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,7 +183,7 @@
     border-style: solid;
     border-width: thin;
   }
-  ::ng-deep .mat-paginator-navigation-last :hover{
+  ::ng-deep .mat-paginator-navigation-last :hover {
     background-color: lightgray;
     display: flex;
     align-items: center;
@@ -203,7 +198,7 @@
     border-style: solid;
     border-width: thin;
   }
-  ::ng-deep .mat-paginator-navigation-first :hover{
+  ::ng-deep .mat-paginator-navigation-first :hover {
     background-color: lightgray;
     display: flex;
     align-items: center;
@@ -218,7 +213,7 @@
     border-style: solid;
     border-width: thin;
   }
-  ::ng-deep .mat-paginator-navigation-last :active{
+  ::ng-deep .mat-paginator-navigation-last :active {
     background-color: #5e72e4;
     border-color: #5e72e4;
     border-style: solid;
@@ -232,10 +227,8 @@
     width: 36px;
     height: 36px;
     font-size: 0.875rem;
-
   }
-  ::ng-deep .mat-paginator-navigation-first :active{
-
+  ::ng-deep .mat-paginator-navigation-first :active {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,6 +245,15 @@
   }
 }
 
-.editButton{
+.editButton {
   float: right;
+}
+
+.uploaderPanel {
+  background: transparent !important;
+  margin-bottom: 7rem;
+  .matAcordion {
+    -webkit-box-shadow: -50px -50px 0px -30px rgba(0, 0, 0, 0);
+    box-shadow: -50px -50px 0px -30px rgba(0, 0, 0, 0);
+  }
 }

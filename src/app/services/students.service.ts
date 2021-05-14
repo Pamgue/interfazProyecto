@@ -16,7 +16,7 @@ export class StudentsService {
   // https://www.positronx.io/how-to-use-angular-8-httpclient-to-post-formdata/ --> Como subir archivos
 
   importStudent(form: FormGroup): Observable<any> {
-    const formData = new FormData();
+    var formData: any = new FormData();
     formData.append("file", form.get('file').value);
     return this.http.post<any>('http://localhost:3000/student/importstudent', formData);
   }
@@ -79,7 +79,11 @@ export class StudentsService {
   }
 
   deleteStudent(uniqueStudentID: string) {
-    return this.http.delete<any>('http://localhost:3000/student/delete/' + uniqueStudentID).subscribe(
+    const options = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json'}),
+      body : { uniqueStudentID: uniqueStudentID }
+    };
+    return this.http.delete<any>('http://localhost:3000/student/delete/', options).subscribe(
       (val) => {
         console.log("POST call successful value returned in body",
           val);
@@ -91,6 +95,7 @@ export class StudentsService {
         console.log("The POST observable is now completed.");
       });
   }
+
 
   addStudent(studentID: string, studentName: string, studentLastName: string, judges: string): Observable<any> {
     const body = { studentID: studentID,  studentName: studentName, studentLastName: studentLastName, judges: judges};

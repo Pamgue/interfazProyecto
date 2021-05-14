@@ -60,7 +60,7 @@
             <button
               class="btn btn-icon btn-2 btn-primary"
               type="button"
-              (click)="onClickMe()"
+              (click)="onDelete('Eliminar', 'student')"
             >
               <span class="btn-inner--icon"
                 ><i class="ni ni-fat-delete"></i
@@ -89,18 +89,18 @@
         <div class="col-2">
           <mat-form-field appearance="fill">
             <mat-label>Groups</mat-label>
-            <mat-select [formControl]="groups" multiple>
+            <mat-select [formControl]="groupsFilter" multiple>
               <mat-select-trigger>
-                {{ groups.value ? groups.value[0] : "" }}
+                {{ groupsFilter.value ? groupsFilter.value[0] : "" }}
                 <span
-                  *ngIf="groups.value?.length > 1"
+                  *ngIf="groupsFilter.value?.length > 1"
                   class="example-additional-selection"
                 >
-                  (+{{ groups.value.length - 1 }}
-                  {{ groups.value?.length === 2 ? "other" : "others" }})
+                  (+{{ groupsFilter.value.length - 1 }}
+                  {{ groupsFilter.value?.length === 2 ? "other" : "others" }})
                 </span>
               </mat-select-trigger>
-              <mat-option *ngFor="let group of groupsList" [value]="group.name">{{
+              <mat-option *ngFor="let group of groupsFilterList" [value]="group.name">{{
                 group.name
               }}</mat-option>
             </mat-select>
@@ -110,7 +110,7 @@
           <button
             class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
             type="button"
-            (click)="updateLabel('etiquetado')"
+            (click)="filterGroups()"
           >
             <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
             <span class="btn-inner--text">Filtrar</span>
@@ -201,7 +201,7 @@
             ngbDropdownMenu
             class="dropdown-menu-right dropdown-menu-arrow"
           >
-            <a class="dropdown-item" href="javascript:void(0)"
+            <a class="dropdown-item" href="javascript:void(0)" (click)="openDialog('Editar', 'student', element)"
               >Editar</a
             >
           </div>
@@ -216,20 +216,31 @@
   <mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>
 <!--pie de pagina-->
-<div class="importCSV" style="width: 100%">
-  <div class="container-fluid mt--2">
-    <div class="row">
-      <button type="button" class="btn btn-outline-default button">
-        Cancelar
-      </button>
-      <div class="col-6 saveButtons">
-        <button type="button" class="btn btn-outline-default saveButtons">
-          Cancelar
-        </button>
-        <button type="button" class="btn btn-outline-primary saveButtons">
-          Guardar
-        </button>
+<div class="uploaderPanel card-remove">
+  <mat-accordion class="matAcordion">
+    <mat-expansion-panel class="matAcordion">
+      <mat-expansion-panel-header class="showPanel" hideToggle>
+        <mat-panel-title>
+          <button mat-fab color="primary">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
+        <div class="d-flex flex-column bg-transparent">
+          <form [formGroup]="form" (ngSubmit)="submitForm()">
+            <div class="form-group">
+                <input type="file" (change)="uploadFile($event)">
+            </div>
+            <div class="form-group">
+              <button mat-stroked-button color="primary">Importar</button>
+                
+            </div>
+        </form>
+        </div>
       </div>
-    </div>
-  </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+ 
 </div>

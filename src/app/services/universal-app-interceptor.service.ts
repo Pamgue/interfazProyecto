@@ -17,7 +17,6 @@ export class UniversalAppInterceptor implements HttpInterceptor {
     req = req.clone({
       url:  req.url,
       setHeaders: {
-        'Content-Type': 'application/json',
         Authorization: `JWT ${token}`
       }
     });
