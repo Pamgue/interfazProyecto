@@ -16,6 +16,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { convertToObject } from 'typescript';
+import { DialogBoxComponent } from 'src/app/components/dialog-box/dialog-box.component';
 
 
 export interface PeriodicElement {
@@ -53,6 +54,7 @@ export class ProblemasComponent implements OnInit {
   selection = new SelectionModel<any>(true, []);
 
   displayedColumns: string[] = ['select','id', 'tags', 'juez', 'fecha'];
+  displayedComments: string[] = ['comment'];
 
   dataSource = new MatTableDataSource();
 
@@ -76,6 +78,8 @@ export class ProblemasComponent implements OnInit {
   judges = new FormControl();
   judgesList: Array<any> = [];
 
+  
+
   constructor(private problemsService: ProblemsService, private labelsService: LabelsService, public dialog: MatDialog) {
     this.displayedColumns = this.displayedColumns;
     this.getTagNames();
@@ -84,16 +88,37 @@ export class ProblemasComponent implements OnInit {
     
   }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
+  openDialog(action, page, obj) {
+    obj.action = action;
+    obj.page = page;
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '250px',
+      data:obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event == 'Editar'){
+        this.updateComment(result.data);
+      }
+    });
+  }
+
+  updateComment(row_obj){
+
+    var foundIndex = this.problemsList.findIndex(x => x.UUID === row_obj.UUID);
+    this.problemsService.updateProblem(row_obj.UUID,row_obj.name);
+    this.problemsList[foundIndex].comment = row_obj.name;     
+    this.refreshTable();
+    return true;
+  }
+
+
   toggleTableRows(element) {
     this.isTableExpanded = !this.isTableExpanded;
-
     this.dataSource.data.forEach((row:any) => {
-      if(element == row.problemid){
-
+      if(element == row.UUID){
         row.isExpanded = this.isTableExpanded;
       }
-
     });
   }
 
@@ -343,3 +368,4 @@ export class ProblemasComponent implements OnInit {
   }
 
 }
+

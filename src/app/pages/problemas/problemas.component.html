@@ -135,6 +135,17 @@
         <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
         </mat-checkbox>
+      
+        <a
+        mat-mini-fab 
+          (click)="toggleTableRows(row.UUID)"
+          color="primary"
+          class=" mx-4 expandButton rounded-circle align-middle"
+          >
+          <span class="font-weight-bold rounded-circle " >
+            {{ row.isExpanded ? "&and;" : " &or;" }} 
+           </span> 
+          </a>
       </td>
     </ng-container>
     <!-- Position Column -->
@@ -154,6 +165,7 @@
       <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
       <td mat-cell *matCellDef="let element"> {{element.judgeName}} </td>
     </ng-container>
+
     <ng-container matColumnDef="fecha">
       <th  class="thead-flight th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
       <td mat-cell *matCellDef="let element"> 
@@ -171,7 +183,7 @@
             ngbDropdownMenu
             class="dropdown-menu-right dropdown-menu-arrow"
           >
-            <a class="dropdown-item" href="javascript:void(0)"
+            <a class="dropdown-item" (click)="openDialog('Editar', 'problem', element)" href="javascript:void(0)"
               >Editar</a
             >
           </div>
@@ -179,11 +191,39 @@
         </div>
       </td>
     </ng-container>
-    
-    <tr  class="thead-light " mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    
-    <tr mat-row 
-    *matRowDef="let row; columns: displayedColumns;"></tr>
+        <!-- Template for details row -->
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div class="example-element-detail" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'" [style.display]="element.isExpanded ? 'block' : 'none'">
+              <div class="example-element-descriptions">
+                <div>
+                  <div class="examsple-element-description">
+                    <!-- Contents-->
+                    <div
+                      class="example-element-description__content">
+                      <div class="example-element-description__cell">
+                        <div>{{element.comment}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+    <tr  class="thead-light " mat-header-row *matHeaderRowDef="displayedColumns"></tr> 
+    <tr
+    mat-row
+    *matRowDef="let element; columns: displayedColumns"
+    class="student-element-row"
+    [class.student-expanded-row]="element.isExpanded"
+  ></tr>
+      <!-- Extra row to show detail content column -->
+      <tr
+      mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="student-detail-row"
+    ></tr>
   </table>
   <mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>
@@ -200,3 +240,4 @@
     </div>
   </div>
 </div>
+
