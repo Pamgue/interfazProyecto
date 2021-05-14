@@ -64,7 +64,7 @@
       <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
         <div class="col-2 bg-transparent">
           <mat-form-field class="tagDropdown" appearance="fill">
-            <mat-label>Tags</mat-label>
+            <mat-label>Etiquetas</mat-label>
             <mat-select [formControl]="selectedTags" multiple>
               <mat-select-trigger class="tagDropdown">
                 {{ selectedTags.value ? selectedTags.value[0] : "" }}
@@ -72,8 +72,8 @@
                   *ngIf="selectedTags.value?.length > 1"
                   class="example-additional-selection"
                 >
-                  (+{{ tags.value.length - 1 }}
-                  {{ tags.value?.length === 2 ? "other" : "others" }})
+                  (+{{ selectedTags.value.length - 1 }}
+                  {{ selectedTags.value?.length === 2 ? "other" : "others" }})
                 </span>
               </mat-select-trigger>
               <mat-option *ngFor="let tags of selectedTagsList" [value]="tags.name">{{
@@ -84,7 +84,7 @@
         </div>
         <div class="col-2">
           <mat-form-field appearance="fill">
-            <mat-label>Judges</mat-label>
+            <mat-label>Jueces</mat-label>
             <mat-select [formControl]="judges" multiple>
               <mat-select-trigger>
                 {{ judges.value ? judges.value[0] : "" }}

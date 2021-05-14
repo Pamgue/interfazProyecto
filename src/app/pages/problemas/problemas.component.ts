@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { convertToObject } from 'typescript';
 
 
 export interface PeriodicElement {
@@ -119,6 +120,10 @@ export class ProblemasComponent implements OnInit {
   refreshTable(){
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.selection = new SelectionModel<any>(true, []);
+    this.judges = new FormControl();
+    this.selectedTags = new FormControl();
+    this.tags = new FormControl();
   }
 
   labelFilter(value: String){
@@ -129,6 +134,10 @@ export class ProblemasComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.problemsList);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.judges = new FormControl();
+    this.selectedTags = new FormControl();
+    this.tags = new FormControl();
+    this.selection = new SelectionModel<any>(true, []);
   }
 
 
@@ -200,6 +209,7 @@ export class ProblemasComponent implements OnInit {
       this.problemsList[foundIndex].tags = temptags;      
       }
       );
+      
       this.refreshTable();
   }
 
@@ -240,6 +250,7 @@ export class ProblemasComponent implements OnInit {
       this.problemsList[foundIndex].tags = temptags;      
       }
       );
+      this.selection = new SelectionModel<any>(true, []);
       this.refreshTable();
   }
 
@@ -255,17 +266,21 @@ export class ProblemasComponent implements OnInit {
 
   //filters judges and tags
 
+
+
   filterProblems(action:String){
 
-    if(this.tags.value!=null){
+
+    if(this.selectedTags.value!=null){
       var tagIds : Array<string> = [];
-      this.tags.value.forEach(
+      this.selectedTags.value.forEach(
         value => {
            const foundIndex = this.selectedTagsList.findIndex(x => x.name === value);
            tagIds.push(this.selectedTagsList[foundIndex].id);
         }
      )
      var tagIdsString = tagIds.map(String).join(';');
+
     }
     else
       var tagIdsString = '';
@@ -283,8 +298,10 @@ export class ProblemasComponent implements OnInit {
     }
     else
       var judgeIdsString = '';
-
+  
+  
   this.getProblems(judgeIdsString,tagIdsString);
+  this.selection = new SelectionModel<any>(true, []);  
   }
 
   
