@@ -17,7 +17,7 @@ import { AuthorizeGuard } from '../../services/authorize-guard.service';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'labels',      component: LabelComponent, canActivate: [AuthorizeGuard] },
-    { path: 'student-profile',   component: StudentProfileComponent, canActivate: [AuthorizeGuard] },
+    { path: 'student-profile/:id',   component: StudentProfileComponent, canActivate: [AuthorizeGuard] },
     { path: 'problemas',         component: ProblemasComponent, canActivate: [AuthorizeGuard] },
     { path: 'groups',          component: GroupsComponent, canActivate: [AuthorizeGuard] },
     { path: 'students',           component: StudentComponent, canActivate: [AuthorizeGuard] }

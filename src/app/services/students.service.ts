@@ -55,7 +55,7 @@ export class StudentsService {
   }
 
   getStudentProfile(uniqueStudentID: string): Observable<any> {
-    return this.http.get<any>('http://localhost:3000/student/profile/' + uniqueStudentID);
+    return this.http.post<any>('http://localhost:3000/student/profile/' + uniqueStudentID, null);
   }
 
   getAllStudent(uniqueGroupID: string): Observable<any> {

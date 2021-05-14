@@ -327,5 +327,7 @@ export class StudentComponent implements OnInit {
     this.refreshTable()
  
   }
-
+  onStudentClick(idStudent: number) {
+    console.log(idStudent);
+  }
 }

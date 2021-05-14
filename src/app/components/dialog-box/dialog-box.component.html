@@ -6,6 +6,7 @@
   <ng-container *ngIf="page == 'group'; then groupTemplate"></ng-container>
   <ng-container *ngIf="page == 'problem'; then problemTemplate"></ng-container>
   <ng-container *ngIf="page == 'student'; then studentTemplate"></ng-container>
+  <ng-container *ngIf="page == 'studentprofile'; then studentprofileTemplate"></ng-container>
 
   <ng-template #labelTemplate>
     <ng-container *ngIf="action == 'Agregar' || action == 'Editar'; else deleteTemplate">
@@ -53,6 +54,30 @@
       </mat-form-field>
     </ng-container>
   </ng-template>
+  <ng-template #studentprofileTemplate>
+    <ng-container *ngIf="action == 'Editar'; else deleteTemplate">
+      <mat-form-field >
+        <input placeholder="{{action}} id" matInput [(ngModel)]="local_data.userid">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Nombre" matInput [(ngModel)]="local_data.name">
+
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Apellido" matInput [(ngModel)]="local_data.lastname">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Juez UVA" matInput [(ngModel)]="local_data.Judges.UVA">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Juez CodeChef" matInput [(ngModel)]="local_data.Judges.CodeChef">
+      </mat-form-field>
+      <mat-form-field >
+        <input placeholder="{{action}} Juez CodeForces" matInput [(ngModel)]="local_data.Judges.CodeForces">
+      </mat-form-field>
+    </ng-container>
+    </ng-template>
+
   
 
   <ng-template #deleteTemplate>

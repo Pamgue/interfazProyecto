@@ -1,3 +1,12 @@
-.userName{
-    margin-bottom: 1rem;
+.userName {
+  margin-bottom: 1rem;
+}
+
+.usernameBox {
+  p {
+    font-size: 0.75rem !important;
+  }
+  input[type="text"] {
+    font-size: 0.75rem !important;
+  }
 }

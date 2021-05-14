@@ -10,14 +10,17 @@
   <!-- Mask -->
   <span class="mask bg-gradient-danger opacity-8"></span>
   <!-- Header container -->
-  <div class="container-fluid d-flex align-items-center">
-    <div class="row">
-      <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white">Nombre del estudiante</h1>
-        <p class="text-white mt-0 mb-5">Id</p>
-        <a  class="btn btn-info">Edit profile</a>
+  <div class="container-fluid w-100 d-flex align-items-center">
+
+      <div class="col-lg-7 col-md-10 p-0">
+        <h1 class="display-2 text-white">
+        {{studentProfile.name}} {{ studentProfile.lastname}}</h1>
+        <p class="text-white mt-0 mb-5">{{studentProfile.userid}}</p>
+        <a  class="btn btn-info"
+        (click)="openDialog('Editar', 'studentprofile', studentProfile)">
+        Edit profile</a>
       </div>
-    </div>
+
   </div>
 </div>
 
@@ -28,7 +31,7 @@
         class="acordion"
         #acc="ngbAccordion"
         activeIds="ngb-panel-0"
-        [collapsed]="false"
+       
       >
         <ngb-panel title="Mostrar Filtro" class="bg-transparent">
           <ng-template ngbPanelContent class="acordion bg-transparent">
@@ -139,7 +142,7 @@
           <!-- Symbol Column -->
           <ng-container matColumnDef="juez">
             <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
-            <td mat-cell *matCellDef="let element"> {{element.juez}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.Judge}} </td>
           </ng-container>
           <ng-container matColumnDef="fecha">
             <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
@@ -158,7 +161,7 @@
                   ngbDropdownMenu
                   class="dropdown-menu-right dropdown-menu-arrow"
                 >
-                  <a class="dropdown-item" href="javascript:void(0)"
+                  <a class="dropdown-item" href="javascript:void(0)" 
                     >Editar</a
                   >
                 </div>
@@ -177,10 +180,10 @@
       <div class="card card-profile shadow">
         <h1 class="text-center">Usuarios</h1>
         <div class="card-body pt-0 pt-md-4">
-          <div class="text-center">
+          <div class="text-center usernameBox">
             <div class="row">
               <div class="col-5">
-                <p>Juez#1</p>
+                <p>CodeChef</p>
               </div>
               <div class="col-6 userName">
                 <input
@@ -188,13 +191,29 @@
                   type="text"
                   class="form-control"
                   [(ngModel)]="model"
-                  [ngbTypeahead]="search"
+                  disabled= "{{editJudge}}"
+                  value = "{{studentJudges.CodeChef}}"
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-5">
+                <p>CodeFroces</p>
+              </div>
+              <div class="col-6 userName">
+                <input
+                  id="typeahead-basic"
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="model"
+                  disabled= "{{editJudge}}"
+                  value = "{{studentJudges.CodeForces}}"
                 />
               </div>
             </div>
             <div class="row">
               <div class="col-5">
-                <p>Juez#2</p>
+                <p>UVA</p>
               </div>
               <div class="col-6 userName">
                 <input
@@ -202,21 +221,8 @@
                   type="text"
                   class="form-control"
                   [(ngModel)]="model"
-                  [ngbTypeahead]="search"
-                />
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-5">
-                <p>Juez#3</p>
-              </div>
-              <div class="col-6 userName">
-                <input
-                  id="typeahead-basic"
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="model"
-                  [ngbTypeahead]="search"
+                  disabled= "{{editJudge}}"
+                  value = "{{studentJudges.UVA}}"
                 />
               </div>
             </div>
