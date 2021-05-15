@@ -25,77 +25,51 @@
 </div>
 
 <div>
-  <div class="row" style="margin-bottom: 2rem">
-    <div class="col">
-      <ngb-accordion
-        class="acordion"
-        #acc="ngbAccordion"
-        activeIds="ngb-panel-0"
-       
-      >
-        <ngb-panel title="Mostrar Filtro" class="bg-transparent">
-          <ng-template ngbPanelContent class="acordion bg-transparent">
-            <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
-              <div class="col-2 bg-transparent">
-                <div ngbDropdown class="d-inline-block">
-                  <button
-                    class="btn btn-outline-primary"
-                    id="dropdownBasic1"
-                    ngbDropdownToggle
+  <div class="acordions card-remove">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header class="showPanel" hideToggle>
+          <mat-panel-title>
+            <button mat-stroked-button color="primary">
+              Mostrar/Ocultar Filtros
+            </button>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
+  
+          <div class="col-2">
+            <mat-form-field appearance="fill">
+              <mat-label>Etiquetas</mat-label>
+              <mat-select [formControl]="tags" multiple>
+                <mat-select-trigger>
+                  {{ tags.value ? tags.value[0] : "" }}
+                  <span
+                    *ngIf="tags.value?.length > 1"
+                    class="example-additional-selection"
                   >
-                    Etiqueta
-                  </button>
-                  <div
-                    ngbDropdownMenu
-                    aria-labelledby="dropdownBasic1"
-                    class="col"
-                  >
-                    <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
-                      Action - 1
-                    </button>
-                    <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                      Action - 2
-                    </button>
-                    <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                      Action - 3
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <div ngbDropdown class="col-2 d-inline-block">
-                <button
-                  class="btn btn-outline-primary"
-                  id="dropdownBasic1"
-                  ngbDropdownToggle
-                >
-                  Etiqueta
-                </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button ngbDropdownItem (click)="labelFilter('Etiqueta1')">
-                    Action - 1
-                  </button>
-                  <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                    Action - 2
-                  </button>
-                  <button ngbDropdownItem (click)="labelFilter('Etiqueta2')">
-                    Action - 3
-                  </button>
-                </div>
-              </div>
-              <div class="col-2 d-flex flex-column bg-transparent">
-                <button
-                  class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
-                  type="button"
-                  (click)="updateLabel('etiquetado')"
-                >
-                  <span class="btn-inner--text">Filtrar</span>
-                </button>
-              </div>
-            </div>
-          </ng-template>
-        </ngb-panel>
-      </ngb-accordion>
-    </div>
+                    (+{{ tags.value.length - 1 }}
+                    {{ tags.value?.length === 2 ? "other" : "others" }})
+                  </span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let tag of tagsList" [value]="tag.name">{{
+                  tag.name
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-2 d-flex flex-column bg-transparent">
+            <button
+              class="btn btn-icon btn-3 btn-primary mr-auto mb-2"
+              type="button"
+              (click)="filterTags()"
+            >
+              <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
+              <span class="btn-inner--text">Filtrar</span>
+            </button>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
   <div class="row" style="margin-top: 2rem">
     <div class="col-9 order-3" style="padding-right: 0  !important; right: -3rem; padding-left: 0 !important; width: 105%;  ">
@@ -127,16 +101,12 @@
           </td>
           </ng-container>
         
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th  class="thead-light th " mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-          </ng-container>
+  
         
           <!-- Weight Column -->
           <ng-container matColumnDef="grupo">
             <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Grupo </th>
-            <td mat-cell *matCellDef="let element"> {{element.grupo}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.tags}} </td>
           </ng-container>
         
           <!-- Symbol Column -->
@@ -144,31 +114,7 @@
             <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
             <td mat-cell *matCellDef="let element"> {{element.Judge}} </td>
           </ng-container>
-          <ng-container matColumnDef="fecha">
-            <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
-            <td mat-cell *matCellDef="let element"> 
-              <div class="media-body">
-              
-              <span>{{element.fecha}} </span>
-              <div ngbDropdown placement="bottom-right" class="editButton" >
-                <a
-                  class="btn btn-sm btn-icon-only text-light"
-                  ngbDropdownToggle
-                >
-                  <i class="fas fa-ellipsis-v"></i>
-                </a>
-                <div
-                  ngbDropdownMenu
-                  class="dropdown-menu-right dropdown-menu-arrow"
-                >
-                  <a class="dropdown-item" href="javascript:void(0)" 
-                    >Editar</a
-                  >
-                </div>
-              </div>
-              </div>
-            </td>
-          </ng-container>
+
       
           <tr  class="thead-light " mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -231,11 +177,5 @@
       </div>
     </div>
   </div>
-  <div class="row" style="margin-top: 2rem; flex-direction: row-reverse; margin-right: 1rem; padding-right: 6rem;">
-    <div class="saveButtons" style="left: 90%; ">
-      <button type="button" class="btn btn-outline-default saveButtons">Cancelar</button>
-      <button type="button" class="btn btn-outline-primary saveButtons">Guardar</button>
-    </div>
 
-  </div>
 </div>

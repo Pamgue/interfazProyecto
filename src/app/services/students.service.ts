@@ -54,8 +54,10 @@ export class StudentsService {
       });
   }
 
-  getStudentProfile(uniqueStudentID: string): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/student/profile/' + uniqueStudentID, null);
+  getStudentProfile(uniqueStudentID: string, uniqueTagIDs: string): Observable<any> {
+    const body = { uniqueTagIDs : uniqueTagIDs};
+    console.log(body.uniqueTagIDs);
+    return this.http.post<any>('http://localhost:3000/student/profile/' + uniqueStudentID, body);
   }
 
   getAllStudent(uniqueGroupID: string): Observable<any> {
