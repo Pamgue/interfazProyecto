@@ -136,7 +136,7 @@
                 </div>
                 <!-- Contents-->
                 <div *ngFor="let student of element['students']; let idx = index"
-                  class="example-element-description__content" (click)=onStudentClick(student.id)>
+                  class="example-element-description__content" [routerLink] ="['/student-profile', student.id]">
                   <div class="example-element-description__cell" *ngFor="let key of displayedStudentsColumnsList">
                     <div>{{student[key]}}</div>
                   </div>

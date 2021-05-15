@@ -68,21 +68,6 @@ export class GroupsComponent implements OnInit {
     this.dataSource.sort = this.sort; 
   }
   expandContent = true;
-
-  /*
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
-
-  
-  masterToggle() {
-    this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
-  }
-  */
   
   toggleTableRows(element) {
     this.isTableExpanded = !this.isTableExpanded;
@@ -95,36 +80,16 @@ export class GroupsComponent implements OnInit {
       
     });   
   }
-/*
-  checkboxLabel(row?: Element): string {
-    if (!row) {
-
-      return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
-    }
-
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id }`;
-  }
-*/
 
   getKeys(object): string[] {
    //console.log(object);
    return Object.keys(object);
  }
 
- //FALTA ENVIARLE EL ID Y VER SI SIRVE
- onStudentClick(idStudent: string) {
-   console.log(idStudent);
-   this.router.navigateByUrl('/student-profile');
- }
-
  getTagNames() {
    this.labelsService.getTagNames().subscribe(
      data => {
        this.tagResult = data;
-       /*
-       for(var property in this.tagResult) {
-         console.log(property + "=" + this.tagResult[property]);
-      }*/
      },
      error => console.log("Error: ", error),
    );
