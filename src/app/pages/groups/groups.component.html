@@ -77,25 +77,9 @@
     matSort
   >
     <ng-container matColumnDef="select">
-      <th class="thead-light th " mat-header-cell *matHeaderCellDef>
-        <!-- <mat-checkbox
-          (change)="$event ? masterToggle() : null"
-          [checked]="selection.hasValue() && isAllSelected()"
-          [indeterminate]="selection.hasValue() && !isAllSelected()"
-          [aria-label]="checkboxLabel()"
-        >
-        </mat-checkbox> -->
-      </th>
+      <th class="thead-light th " mat-header-cell *matHeaderCellDef></th>
       
       <td class="td" mat-cell *matCellDef="let row">
-        <!--<mat-checkbox
-          (click)="$event.stopPropagation()"
-          (change)="$event ? selection.toggle(row) : null"
-          [checked]="selection.isSelected(row)"
-          [aria-label]="checkboxLabel(row)"
-        >
-        </mat-checkbox>-->
-
         <a
         mat-mini-fab 
           (click)="toggleTableRows(row.id)"
@@ -119,7 +103,7 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th class="thead-light th" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+      <th class="groupHeader" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
       <td class="td" mat-cell *matCellDef="let element">
         <div class="media-body">
           <span>{{element.name}} </span>
@@ -146,7 +130,7 @@
               <div class="example-element-description">
                 <!-- Header -->
                 <div class="example-element-description__header">
-                  <div class="example-element-description__cell" *ngFor="let key of displayedStudentsColumnsList">
+                  <div class="example-element-description__cell" *ngFor="let key of headersStudentsColumnsList">
                     <div>{{key}}</div>
                   </div>
                 </div>
@@ -184,19 +168,4 @@
     ></tr>
   </table>
   <mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
-</div>
-
-<div class="importCSV" style="width: 100%">
-  <div class="container-fluid mt--2">
-    <div class="row">
-      <div class="col-6 saveButtons">
-        <button type="button" class="btn btn-outline-default saveButtons">
-          Cancelar
-        </button>
-        <button type="button" class="btn btn-outline-primary saveButtons">
-          Guardar
-        </button>
-      </div>
-    </div>
-  </div>
 </div>

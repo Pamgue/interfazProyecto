@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
 import { DialogBoxComponent } from '../../components/dialog-box/dialog-box.component';
+import { Router } from '@angular/router'
 
 
 
@@ -52,9 +53,10 @@ export class GroupsComponent implements OnInit {
   // Elementos que se van a mostrar en la tabla
   displayedGroupsColumnsList: string[] = ['select','name'];
   displayedStudentsColumnsList: string[] = ['studentid','name','lastname', 'CodeForces', 'CodeChef', 'UVA'];
+  headersStudentsColumnsList: string[] = ['ID estudiante','Nombres','Apellidos', 'CodeForces', 'CodeChef', 'UVA'];
   isTableExpanded=false;
 
-  constructor(private groupsService: GroupsService, private labelsService: LabelsService, public dialog: MatDialog, private datePipe: DatePipe) {
+  constructor(private groupsService: GroupsService, private labelsService: LabelsService, public dialog: MatDialog, private datePipe: DatePipe, private router: Router) {
    this.getTagNames();
    this.getAllGroups(null);
  }
@@ -109,8 +111,10 @@ export class GroupsComponent implements OnInit {
    return Object.keys(object);
  }
 
- onStudentClick(idStudent: number) {
+ //FALTA ENVIARLE EL ID Y VER SI SIRVE
+ onStudentClick(idStudent: string) {
    console.log(idStudent);
+   this.router.navigateByUrl('/student-profile');
  }
 
  getTagNames() {
@@ -215,7 +219,7 @@ export class GroupsComponent implements OnInit {
   }
 
   exportRowData(row_obj){
-    //this.groupsService.exportGroup(row_obj.id);
+    this.groupsService.exportGroup(row_obj.id, row_obj.name);
     return true;
   }
 

@@ -21,8 +21,11 @@
         <input placeholder="{{action}} nombre" matInput [(ngModel)]="local_data.name">
       </mat-form-field>
     </ng-container>
-    <ng-container *ngIf="action == 'Exportar'; else deleteTemplate"> 
+    <ng-container *ngIf="action == 'Exportar'"> 
       ¿Exportar en un archivo CSV el grupo: {{local_data.name}}?
+    </ng-container>
+    <ng-container *ngIf="action == 'Eliminar'"> 
+      ¿Está seguro de que desea realizar esta acción? 
     </ng-container>
   </ng-template>
   <ng-template #problemTemplate>
