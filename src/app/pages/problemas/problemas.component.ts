@@ -53,7 +53,7 @@ export class ProblemasComponent implements OnInit {
 
   selection = new SelectionModel<any>(true, []);
 
-  displayedColumns: string[] = ['select','id', 'tags', 'juez', 'fecha'];
+  displayedColumns: string[] = ['select','problemid', 'tags', 'judgeName', 'date'];
   displayedComments: string[] = ['comment'];
 
   dataSource = new MatTableDataSource();
@@ -84,11 +84,12 @@ export class ProblemasComponent implements OnInit {
     this.displayedColumns = this.displayedColumns;
     this.getTagNames();
     this.getJudgesNames();
-    this.getProblems(null,null);
-    
+    this.getProblems(null,null); 
   }
 
   openDialog(action, page, obj) {
+    console.log("..............");
+    console.log(obj);
     obj.action = action;
     obj.page = page;
     const dialogRef = this.dialog.open(DialogBoxComponent, {
@@ -98,16 +99,21 @@ export class ProblemasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result.event == 'Editar'){
+        console.log(result.data);
         this.updateComment(result.data);
+
       }
     });
   }
 
   updateComment(row_obj){
 
+    console.log(row_obj.UUID);
+    console.log(row_obj.name);
+
     var foundIndex = this.problemsList.findIndex(x => x.UUID === row_obj.UUID);
-    this.problemsService.updateProblem(row_obj.UUID,row_obj.name);
-    this.problemsList[foundIndex].comment = row_obj.name;     
+    this.problemsService.updateProblem(row_obj.UUID,row_obj.comment);
+    this.problemsList[foundIndex].comment = row_obj.comment;     
     this.refreshTable();
     return true;
   }
@@ -159,8 +165,8 @@ export class ProblemasComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.problemsList);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    this.judges = new FormControl();
-    this.selectedTags = new FormControl();
+    //this.judges = new FormControl();
+    //this.selectedTags = new FormControl();
     this.tags = new FormControl();
     this.selection = new SelectionModel<any>(true, []);
   }
@@ -251,16 +257,21 @@ export class ProblemasComponent implements OnInit {
   }
 
   addNewTags(oldTags,selectedTags){
-    let newArray = [];
-    for(let i=0;i<oldTags.length;i++){
-      if(newArray.indexOf(oldTags[i]) == -1)
-      newArray.push(oldTags[i])
+    if(selectedTags!=null){
+      let newArray = [];
+      for(let i=0;i<oldTags.length;i++){
+        if(newArray.indexOf(oldTags[i]) == -1)
+        newArray.push(oldTags[i])
+      }
+      for(let i=0;i<selectedTags.length;i++){
+        if(newArray.indexOf(selectedTags[i]) == -1)
+        newArray.push(selectedTags[i])
+      }
+
+      if(newArray[0]==null)newArray.slice(0,1);
+      return newArray;
     }
-    for(let i=0;i<selectedTags.length;i++){
-      if(newArray.indexOf(selectedTags[i]) == -1)
-      newArray.push(selectedTags[i])
-    }
-    return newArray;
+      return oldTags;
     }
 
   deleteTagsOnProblems(){
@@ -280,13 +291,18 @@ export class ProblemasComponent implements OnInit {
   }
 
   deleteOldTags(oldTags,selectedTags){
-    
-    let newArray = [];
-    for(let i=0;i<oldTags.length;i++){
-      if(selectedTags.indexOf(oldTags[i]) == -1)
-      newArray.push(oldTags[i])
+
+    if(selectedTags!=null){
+
+      let newArray = [];
+      for(let i=0;i<oldTags.length;i++){
+        if(selectedTags.indexOf(oldTags[i]) == -1)
+        newArray.push(oldTags[i])
+      }
+      return newArray;
     }
-    return newArray;
+    else
+      return oldTags;
     }
 
   //filters judges and tags

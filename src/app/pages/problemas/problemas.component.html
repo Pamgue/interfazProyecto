@@ -51,6 +51,7 @@
   </div>
 </div>
 <!-- Page content -->
+<!-- Page content -->
 <div class="acordions card-remove">
   <mat-accordion>
     <mat-expansion-panel>
@@ -61,7 +62,7 @@
           </button></mat-panel-title
         >
       </mat-expansion-panel-header>
-      <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
+            <div class="mb-4 mb-xl-0 d-flex flex-row py-3 h-100">
         <div class="col-2 bg-transparent">
           <mat-form-field class="tagDropdown" appearance="fill">
             <mat-label>Etiquetas</mat-label>
@@ -116,6 +117,26 @@
     </mat-expansion-panel>
   </mat-accordion>
 </div>
+
+
+
+
+
+<div class="acordions card-remove">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="showPanel" hideToggle>
+        <mat-panel-title>
+          <button mat-stroked-button color="primary">
+            Mostrar/Ocultar Filtros
+          </button></mat-panel-title
+        >
+      </mat-expansion-panel-header>
+
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
 <div class="container-fluid mt--7 table">
   <div class="card shadow">
     <div class="card-header border-0">
@@ -123,15 +144,21 @@
       </h3>
     </div>
   </div>
- 
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100" multiTemplateDataRows>
+
+<!--Tabla-->
+  <table
+    mat-table
+    [dataSource]="dataSource"
+    multiTemplateDataRows
+    matSort
+  >
     <ng-container matColumnDef="select">
       <th class="thead-light th " mat-header-cell *matHeaderCellDef>
         <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
           [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
         </mat-checkbox>
       </th>
-      <td class="td" mat-cell *matCellDef="let row">
+      <td mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
         </mat-checkbox>
@@ -148,30 +175,38 @@
           </a>
       </td>
     </ng-container>
-    <!-- Position Column -->
-    <ng-container matColumnDef="id">
-      <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-      <td mat-cell *matCellDef="let element"> {{element.problemid}} </td>
-    </ng-container>
- 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="tags">
-      <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Tags </th>
-      <td mat-cell *matCellDef="let element"> {{element.tags}} </td>
-    </ng-container>
-  
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="juez">
-      <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
-      <td mat-cell *matCellDef="let element"> {{element.judgeName}} </td>
+    
+    <ng-container matColumnDef="problemid">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+      <td mat-cell *matCellDef="let element">
+        <span> {{ element.problemid }}</span>
+      </td>
     </ng-container>
 
-    <ng-container matColumnDef="fecha">
-      <th  class="thead-flight th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
-      <td mat-cell *matCellDef="let element"> 
+    <ng-container matColumnDef="tags">
+      <th class= "thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Tags </th>
+      <td mat-cell *matCellDef="let element">
+
+          <span>{{element.tags}} </span>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="judgeName">
+      <th class= "thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
+      <td mat-cell *matCellDef="let element">
+      
+          <span>{{element.judgeName}} </span>
+
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th class= "thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+      <td mat-cell *matCellDef="let element">
         <div class="media-body">
-        
-        <span>{{element.date}} </span>
+          <span>{{element.date}} </span>
+        </div>
         <div ngbDropdown placement="bottom-right" class="editButton" >
           <a
             class="btn btn-sm btn-icon-only text-light"
@@ -188,30 +223,37 @@
             >
           </div>
         </div>
-        </div>
       </td>
     </ng-container>
-        <!-- Template for details row -->
-        <ng-container matColumnDef="expandedDetail">
-          <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-            <div class="example-element-detail" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'" [style.display]="element.isExpanded ? 'block' : 'none'">
-              <div class="example-element-descriptions">
-                <div>
-                  <div class="examsple-element-description">
-                    <!-- Contents-->
-                    <div
-                      class="example-element-description__content">
-                      <div class="example-element-description__cell">
-                        <div>{{element.comment}}</div>
-                      </div>
-                    </div>
+
+    <!-- Template for details row -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div class="example-element-detail" [@detailExpand]="element.isExpanded ? 'expanded' : 'collapsed'" [style.display]="element.isExpanded ? 'block' : 'none'">
+          <div class="example-element-descriptions">
+            <div>
+              <div class="example-element-description">
+                <!-- Header -->
+                <div class="example-element-description__header">
+                  <div class="example-element-description__cell">
+                    <div>Comentario</div>
+                  </div>
+                </div>
+                <!-- Contents-->
+                <div class="example-element-description__content" >
+                  <div class="example-element-description__cell">
+                    <div>{{element.comment}}</div>
                   </div>
                 </div>
               </div>
             </div>
-          </td>
-        </ng-container>
-    <tr  class="thead-light " mat-header-row *matHeaderRowDef="displayedColumns"></tr> 
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true">
+    </tr> 
     <tr
     mat-row
     *matRowDef="let element; columns: displayedColumns"
@@ -225,7 +267,7 @@
       class="student-detail-row"
     ></tr>
   </table>
-  <mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
+<mat-paginator hidePageSize="true"  MatFormFieldAppearance = "fill" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>
 <div class="recargar" style="width: 100%">
   <div class="container">

@@ -31,7 +31,7 @@
   <ng-template #problemTemplate>
     <ng-container *ngIf="action == 'Agregar' || action == 'Editar'; else deleteTemplate">
       <mat-form-field >
-        <input placeholder="Comentario" matInput [(ngModel)]="local_data.name">
+        <input placeholder="Comentario" matInput [(ngModel)]="local_data.comment">
       </mat-form-field>
     </ng-container>
   </ng-template>
