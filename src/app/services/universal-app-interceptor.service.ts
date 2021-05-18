@@ -12,7 +12,6 @@ export class UniversalAppInterceptor implements HttpInterceptor {
  
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
-    console.log("Intercepted");
 
     req = req.clone({
       url:  req.url,

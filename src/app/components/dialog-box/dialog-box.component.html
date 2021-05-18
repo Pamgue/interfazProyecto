@@ -11,14 +11,14 @@
   <ng-template #labelTemplate>
     <ng-container *ngIf="action == 'Agregar' || action == 'Editar'; else deleteTemplate">
       <mat-form-field >
-        <input placeholder="{{action}} nombre" matInput [(ngModel)]="local_data.name">
+        <input placeholder="Nombre" matInput [(ngModel)]="local_data.name">
       </mat-form-field>
     </ng-container>
   </ng-template>
   <ng-template #groupTemplate>
     <ng-container *ngIf="action == 'Agregar' || action == 'Editar'">
       <mat-form-field >
-        <input placeholder="{{action}} nombre" matInput [(ngModel)]="local_data.name">
+        <input placeholder="Nombre" matInput [(ngModel)]="local_data.name">
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="action == 'Exportar'"> 
@@ -31,52 +31,52 @@
   <ng-template #problemTemplate>
     <ng-container *ngIf="action == 'Agregar' || action == 'Editar'; else deleteTemplate">
       <mat-form-field >
-        <input placeholder="{{action}} nombre" matInput [(ngModel)]="local_data.name">
+        <input placeholder="Comentario" matInput [(ngModel)]="local_data.name">
       </mat-form-field>
     </ng-container>
   </ng-template>
   <ng-template #studentTemplate>
     <ng-container *ngIf="action == 'Agregar' || action == 'Editar'; else deleteTemplate">
       <mat-form-field >
-        <input placeholder="{{action}} id" matInput [(ngModel)]="local_data.studentId">
+        <input placeholder="ID" matInput [(ngModel)]="local_data.studentId">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} nombre" matInput [(ngModel)]="local_data.name">
+        <input placeholder="Nombre" matInput [(ngModel)]="local_data.name">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Apellido" matInput [(ngModel)]="local_data.lastName">
+        <input placeholder="Apellido" matInput [(ngModel)]="local_data.lastName">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Juez UVA" matInput [(ngModel)]="local_data.UVA">
+        <input placeholder="Usuario CodeForces" matInput [(ngModel)]="local_data.CodeForces">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Juez CodeChef" matInput [(ngModel)]="local_data.CodeChef">
+        <input placeholder="Usuario CodeChef" matInput [(ngModel)]="local_data.CodeChef">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Juez CodeForces" matInput [(ngModel)]="local_data.CodeForces">
+        <input placeholder="Usuario UVA" matInput [(ngModel)]="local_data.UVA">
       </mat-form-field>
     </ng-container>
   </ng-template>
   <ng-template #studentprofileTemplate>
     <ng-container *ngIf="action == 'Editar'; else deleteTemplate">
       <mat-form-field >
-        <input placeholder="{{action}} id" matInput [(ngModel)]="local_data.userid">
+        <input placeholder="ID" matInput [(ngModel)]="local_data.userid">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Nombre" matInput [(ngModel)]="local_data.name">
+        <input placeholder="Nombre" matInput [(ngModel)]="local_data.name">
 
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Apellido" matInput [(ngModel)]="local_data.lastname">
+        <input placeholder="Apellido" matInput [(ngModel)]="local_data.lastname">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Juez UVA" matInput [(ngModel)]="local_data.Judges.UVA">
+        <input placeholder="Usuario CodeForces" matInput [(ngModel)]="local_data.Judges.CodeForces">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Juez CodeChef" matInput [(ngModel)]="local_data.Judges.CodeChef">
+        <input placeholder="Usuario CodeChef" matInput [(ngModel)]="local_data.Judges.CodeChef">
       </mat-form-field>
       <mat-form-field >
-        <input placeholder="{{action}} Juez CodeForces" matInput [(ngModel)]="local_data.Judges.CodeForces">
+        <input placeholder="Usuario UVA" matInput [(ngModel)]="local_data.Judges.UVA">
       </mat-form-field>
     </ng-container>
     </ng-template>

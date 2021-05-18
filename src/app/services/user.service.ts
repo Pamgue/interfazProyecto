@@ -5,6 +5,8 @@ import {
   HttpHeaders
 } from '@angular/common/http';
 import { JWTTokenService } from './jwttoken.service';
+import { LocalStorageService } from './local-storage.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +14,20 @@ import { JWTTokenService } from './jwttoken.service';
 export class UserService {
   userValue: Boolean = false;
 
-  constructor(private http: HttpClient, private jwtService: JWTTokenService) { }
+  constructor(private http: HttpClient, private jwtService: JWTTokenService, private localStorageService: LocalStorageService) { }
 
   login(username: string, password: string): Observable<any> {
     const body = { username: username, password: password };
-    // Lo que se tiene que hacer cuando se invoca al metodo
-    // this.http.post<any>('http://localhost:3000/user/login', body).subscribe(
-    //   data => localStorage.setItem('token', data.token), 
-    //   error => console.log("Error: ", error), 
-    //   () => console.log(localStorage.getItem('token'))
-    // );
     return this.http.post<any>('http://localhost:3000/user/login', body);
   }
 
   isTokenExpired() {
     return this.jwtService.isTokenExpired();
-;
+  }
+
+  logout() {
+    this.userValue = false;
+    this.jwtService.removeToken();
+    this.localStorageService.remove('token');
   }
 }

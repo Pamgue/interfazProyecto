@@ -1,3 +1,4 @@
+import { NullTemplateVisitor } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import jwt_decode  from 'jwt-decode';
  
@@ -13,6 +14,12 @@ export class JWTTokenService {
     setToken(token: string) {
       if (token) {
         this.jwtToken = token;
+      }
+    }
+
+    removeToken() {
+      if (this.jwtToken) {
+        this.jwtToken = null;
       }
     }
  

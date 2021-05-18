@@ -5,6 +5,8 @@ import { first } from 'rxjs/operators';
 
 import { UserService } from '../../services/user.service';
 
+import { LocalStorageService } from '../../services/local-storage.service'
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,7 +23,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private localStorageService: LocalStorageService
   ) {
     // redirect to home if already logged in
     if (this.userService.userValue && !this.userService.isTokenExpired()) { 
@@ -53,22 +56,21 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.loading = true;
 
-    // this.error = "El nombre de usuario o la contraseña son inválidas";
-    // this.loading = false;
     this.userService.login(this.f.username.value, this.f.password.value)
         .pipe(first())
         .subscribe(
             data => {
-              localStorage.setItem('token', data.token);
+              this.localStorageService.set('token', data.token);
               this.userService.userValue = true;
-              this.router.navigate([this.returnUrl]);
+              this.loading = false;
             },
             error => {
-                this.error = error;
+                this.error = "El nombre de usuario o la contraseña son inválidas";
+                console.log(error);
                 this.loading = false;
             },
             () => {
-              console.log(localStorage.getItem('token'));
+              this.router.navigate([this.returnUrl]);
             }
           );
   }
