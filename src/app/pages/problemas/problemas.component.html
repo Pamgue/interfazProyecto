@@ -158,7 +158,7 @@
           [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
         </mat-checkbox>
       </th>
-      <td mat-cell *matCellDef="let row">
+      <td class="td" mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
           [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
         </mat-checkbox>
@@ -178,14 +178,14 @@
     
     <ng-container matColumnDef="problemid">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-      <td mat-cell *matCellDef="let element">
+      <td class="td" mat-cell *matCellDef="let element">
         <span> {{ element.problemid }}</span>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="tags">
       <th class= "thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Tags </th>
-      <td mat-cell *matCellDef="let element">
+      <td class="td" mat-cell *matCellDef="let element">
 
           <span>{{element.tags}} </span>
 
@@ -194,7 +194,7 @@
 
     <ng-container matColumnDef="judgeName">
       <th class= "thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
-      <td mat-cell *matCellDef="let element">
+      <td class="td" mat-cell *matCellDef="let element">
       
           <span>{{element.judgeName}} </span>
 
@@ -203,7 +203,7 @@
 
     <ng-container matColumnDef="date">
       <th class= "thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
-      <td mat-cell *matCellDef="let element">
+      <td class="td" mat-cell *matCellDef="let element">
         <div class="media-body">
           <span>{{element.date}} </span>
         </div>
