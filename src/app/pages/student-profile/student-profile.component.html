@@ -88,29 +88,22 @@
           <ng-container matColumnDef="id">
             <th class="thead-light  th " mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
             <td mat-cell *matCellDef="let element"> 
-              <div class="media-body">
-                <input
-                  style="margin-right: 1rem"
-                  type="checkbox"
-                  ng-model="checkboxModel.value2"
-                  g-true-value="'YES'"
-                  ng-false-value="'NO'"
-                />
+             
                 <span class="mb-0 text-sm">{{element.id}}</span>
-              </div>
+             
           </td>
           </ng-container>
         
   
         
           <!-- Weight Column -->
-          <ng-container matColumnDef="grupo">
-            <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Grupo </th>
+          <ng-container matColumnDef="tags">
+            <th  class="thead-light th  "  mat-header-cell *matHeaderCellDef mat-sort-header> Etiquetas </th>
             <td mat-cell *matCellDef="let element"> {{element.tags}} </td>
           </ng-container>
         
           <!-- Symbol Column -->
-          <ng-container matColumnDef="juez">
+          <ng-container matColumnDef="Judge">
             <th  class="thead-light th  " mat-header-cell *matHeaderCellDef mat-sort-header> Juez </th>
             <td mat-cell *matCellDef="let element"> {{element.Judge}} </td>
           </ng-container>

@@ -29,7 +29,7 @@ export class StudentProfileComponent  {
   selection = new SelectionModel<any>(true, []);
   //id del estudiante 
   studentId: string;
-  displayedColumns: string[] = ['id', 'grupo', 'juez' ];
+  displayedColumns: string[] = ['id', 'tags', 'Judge' ];
   dataSource = new MatTableDataSource();
   studentProblems: Array<any> = [];
   studentJudges:Array<any> = [];

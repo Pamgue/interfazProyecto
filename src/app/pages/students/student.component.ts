@@ -43,10 +43,10 @@ export class StudentComponent implements OnInit {
     "select",
     "studentId",
     "name",
-    "grupo",
+    "Groups",
     "UVA",
-    "codeChef",
-    "codeForces",
+    "CodeChef",
+    "CodeForces",
     "fecha",
   ];
 

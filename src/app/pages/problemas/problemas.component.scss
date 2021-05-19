@@ -48,17 +48,22 @@ th {
     background-color: #f6f9fc;
     color: #8898aa;
     border-color: #e9ecef;
-    text-align: center;
     vertical-align: middle;
   }
   .td {
-    text-align: center;
     padding: 2em 0em !important;
     line-height: 2;
     padding: 0;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     border-color:  #e9ecef;
+    &:first-of-type{
+      padding-left: 1.5rem !important;
+    }
+    &:last-of-type{
+      padding-right: 1.5rem !important;
+    }
+
   }
 }
 
@@ -328,3 +333,5 @@ td.mat-footer-cell {
   border-style: solid;
   border-width: thin;
 }
+
+
