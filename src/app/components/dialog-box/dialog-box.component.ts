@@ -18,10 +18,13 @@ export class DialogBoxComponent {
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
-    //console.log(data);
-    this.local_data = Object.assign({}, data);
-    this.action = this.local_data.action;
-    this.page = this.local_data.page;
+    if (Array.isArray(data)){
+      this.local_data = Array.from(data);
+    } else {
+      this.local_data = Object.assign({}, data);
+    }
+    this.action = this.data.action;
+    this.page = this.data.page;
   }
 
   doAction(){

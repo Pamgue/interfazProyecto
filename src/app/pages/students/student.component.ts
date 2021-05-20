@@ -44,9 +44,9 @@ export class StudentComponent implements OnInit {
     "studentId",
     "name",
     "Groups",
-    "UVA",
-    "CodeChef",
     "CodeForces",
+    "CodeChef",
+    "UVA",
     "fecha",
   ];
 
@@ -245,9 +245,9 @@ export class StudentComponent implements OnInit {
             lastName: result.lastName,
             creationDate: myDate,
             Groups: data.Groups,
-            UVA: result.UVA,
-            CodeChef: result.CodeChef,
             CodeForces: result.CodeForces,
+            CodeChef: result.CodeChef,
+            UVA: result.UVA,
           });
         },
         (error) => console.log("Error: ", error),
@@ -271,6 +271,7 @@ export class StudentComponent implements OnInit {
 
   onDelete(action: string, page: string) {
     var rowsToDelete: Array<any> = this.selection.selected;
+    console.log(rowsToDelete);
 
     if (rowsToDelete.length != 0) {
       this.openDialog(action, page, rowsToDelete);
@@ -292,7 +293,7 @@ export class StudentComponent implements OnInit {
   }
 
   updateRowData(row_obj) {
-    var judges = [row_obj.UVA, row_obj.CodeChef, row_obj.CodeForces]
+    var judges = [row_obj.CodeForces, row_obj.CodeChef, row_obj.UVA]
     var judgesString =judges.join(";")
     this.studentsService.updateStudent(row_obj.id,row_obj.studentId, row_obj.name, row_obj.lastName, judgesString);
     const foundIndex = this.allStudentsResult.findIndex((x) => x.id === row_obj.id);
@@ -300,9 +301,9 @@ export class StudentComponent implements OnInit {
     this.allStudentsResult[foundIndex].id= row_obj.id;
     this.allStudentsResult[foundIndex].studentId= row_obj.studentId;
     this.allStudentsResult[foundIndex].lastName =row_obj.lastName;
-    this.allStudentsResult[foundIndex].UVA = row_obj.UVA;
     this.allStudentsResult[foundIndex].CodeForces =row_obj.CodeForces;
     this.allStudentsResult[foundIndex].CodeChef = row_obj.CodeChef;
+    this.allStudentsResult[foundIndex].UVA = row_obj.UVA;
 
     this.refreshTable();
     return true;
