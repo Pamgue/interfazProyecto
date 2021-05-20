@@ -58,8 +58,6 @@ export class ProblemasComponent implements OnInit {
 
   dataSource = new MatTableDataSource();
 
-  isTableExpanded=false;
-
   actualLabel: String;
 
   panelOpenState = false;
@@ -78,8 +76,6 @@ export class ProblemasComponent implements OnInit {
   judges = new FormControl();
   judgesList: Array<any> = [];
 
-  
-
   constructor(private problemsService: ProblemsService, private labelsService: LabelsService, public dialog: MatDialog) {
     this.displayedColumns = this.displayedColumns;
     this.getTagNames();
@@ -88,8 +84,6 @@ export class ProblemasComponent implements OnInit {
   }
 
   openDialog(action, page, obj) {
-    console.log("..............");
-    console.log(obj);
     obj.action = action;
     obj.page = page;
     const dialogRef = this.dialog.open(DialogBoxComponent, {
@@ -99,7 +93,7 @@ export class ProblemasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result.event == 'Editar'){
-        console.log(result.data);
+
         this.updateComment(result.data);
 
       }
@@ -107,10 +101,6 @@ export class ProblemasComponent implements OnInit {
   }
 
   updateComment(row_obj){
-
-    console.log(row_obj.UUID);
-    console.log(row_obj.name);
-
     var foundIndex = this.problemsList.findIndex(x => x.UUID === row_obj.UUID);
     this.problemsService.updateProblem(row_obj.UUID,row_obj.comment);
     this.problemsList[foundIndex].comment = row_obj.comment;     
@@ -120,13 +110,13 @@ export class ProblemasComponent implements OnInit {
 
 
   toggleTableRows(element) {
-    this.isTableExpanded = !this.isTableExpanded;
     this.dataSource.data.forEach((row:any) => {
       if(element == row.UUID){
-        row.isExpanded = this.isTableExpanded;
+        row.isExpanded = !row.isExpanded;
       }
     });
   }
+
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -152,9 +142,9 @@ export class ProblemasComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.selection = new SelectionModel<any>(true, []);
-    this.judges = new FormControl();
-    this.selectedTags = new FormControl();
-    this.tags = new FormControl();
+    //this.judges = new FormControl();
+    //this.selectedTags = new FormControl();
+    //this.tags = new FormControl();
   }
 
   labelFilter(value: String){
@@ -167,7 +157,7 @@ export class ProblemasComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     //this.judges = new FormControl();
     //this.selectedTags = new FormControl();
-    this.tags = new FormControl();
+    //this.tags = new FormControl();
     this.selection = new SelectionModel<any>(true, []);
   }
 
@@ -237,7 +227,9 @@ export class ProblemasComponent implements OnInit {
       var foundIndex = this.problemsList.findIndex(x => x.UUID === problem.UUID);
       var tagsArray = this.problemsList[foundIndex].tags;
       var temptags = this.addNewTags(tagsArray,this.tags.value);
-      this.problemsList[foundIndex].tags = temptags;      
+
+      this.problemsList[foundIndex].tags = temptags;   
+
       }
       );
       
@@ -257,6 +249,9 @@ export class ProblemasComponent implements OnInit {
   }
 
   addNewTags(oldTags,selectedTags){
+
+    var tempArray;
+
     if(selectedTags!=null){
       let newArray = [];
       for(let i=0;i<oldTags.length;i++){
@@ -268,7 +263,15 @@ export class ProblemasComponent implements OnInit {
         newArray.push(selectedTags[i])
       }
 
-      if(newArray[0]==null)newArray.slice(0,1);
+      if(newArray[0]==null) {
+        tempArray = newArray.slice(1);
+   
+        return tempArray;
+
+      }
+
+     
+
       return newArray;
     }
       return oldTags;
@@ -384,4 +387,3 @@ export class ProblemasComponent implements OnInit {
   }
 
 }
-
