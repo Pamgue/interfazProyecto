@@ -145,6 +145,13 @@ tr.example-detail-row {
   float: right;
 }
 
+.centeredHeader{
+  padding: 2em 0em !important;
+  //lines for centering
+  display:flex;
+  justify-content:center;
+}
+
 ::ng-deep th.mat-header-cell,
 td.mat-cell,
 td.mat-footer-cell {

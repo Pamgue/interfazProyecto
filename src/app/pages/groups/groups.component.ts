@@ -52,9 +52,8 @@ export class GroupsComponent implements OnInit {
 
   // Elementos que se van a mostrar en la tabla
   displayedGroupsColumnsList: string[] = ['select','name'];
-  displayedStudentsColumnsList: string[] = ['studentid','name','lastname', 'CodeForces', 'CodeChef', 'UVA'];
-  headersStudentsColumnsList: string[] = ['ID estudiante','Nombres','Apellidos', 'CodeForces', 'CodeChef', 'UVA'];
-  isTableExpanded=false;
+  displayedStudentsColumnsList: string[] = ['studentid','fullname', 'CodeForces', 'CodeChef', 'UVA'];
+  headersStudentsColumnsList: string[] = ['ID Estudiante','Nombre Completo', 'CodeForces', 'CodeChef', 'UVA'];
 
   constructor(private groupsService: GroupsService, private labelsService: LabelsService, public dialog: MatDialog, private datePipe: DatePipe, private router: Router) {
    this.getTagNames();
@@ -70,15 +69,11 @@ export class GroupsComponent implements OnInit {
   expandContent = true;
   
   toggleTableRows(element) {
-    this.isTableExpanded = !this.isTableExpanded;
-
     this.dataSource.data.forEach((row:any) => {
       if(element == row.id){
-
-        row.isExpanded = this.isTableExpanded;
+        row.isExpanded = !row.isExpanded;
       }
-      
-    });   
+    });
   }
 
   getKeys(object): string[] {

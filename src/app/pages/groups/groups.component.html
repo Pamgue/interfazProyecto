@@ -96,14 +96,13 @@
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>id</th>
       <td class="td" mat-cell *matCellDef="let element">
-       
 
         <span> {{ element.id }}</span>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <th class="groupHeader" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+      <th class="centeredHeader" mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
       <td class="td" mat-cell *matCellDef="let element">
         <div class="media-body">
           <span>{{element.name}} </span>
@@ -138,7 +137,8 @@
                 <div *ngFor="let student of element['students']; let idx = index"
                   class="example-element-description__content" [routerLink] ="['/student-profile', student.id]">
                   <div class="example-element-description__cell" *ngFor="let key of displayedStudentsColumnsList">
-                    <div>{{student[key]}}</div>
+                    <div *ngIf="key == 'fullname'; else elseBlock">{{ student['name'] + ' ' + student['lastname'] }}</div>
+                    <ng-template #elseBlock> <div>{{student[key]}}</div> </ng-template>
                   </div>
                 </div>
               </div>
