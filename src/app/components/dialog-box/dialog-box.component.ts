@@ -19,7 +19,7 @@ export class DialogBoxComponent {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
     //console.log(data);
-    this.local_data = data;
+    this.local_data = Object.assign({}, data);
     this.action = this.local_data.action;
     this.page = this.local_data.page;
   }
