@@ -33,6 +33,7 @@ export class NavbarComponent implements OnInit {
   }
 
   getTitle(){
+    var title = "";
     var titlee = this.location.prepareExternalUrl(this.location.path());
     if(titlee.charAt(0) === '#'){
         titlee = titlee.slice( 1 );
@@ -43,7 +44,10 @@ export class NavbarComponent implements OnInit {
             return this.listTitles[item].title;
         }
     }
-    return 'Dashboard';
+    if (titlee.split("/")[1] == "student-profile"){
+      title = "Perfil de estudiante"
+    }
+    return title;
   }
 
   logout() {
