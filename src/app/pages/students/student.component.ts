@@ -320,13 +320,15 @@ export class StudentComponent implements OnInit {
   submitForm() {
     console.log(this.form.value)
     this.studentsService.importStudent(this.form).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error)
-    )
+      (response) =>  console.log(response) ,
+      (error) => console.log(error),
+      () => {
+        this.getAllStudents(null);
+        this.refreshRows() ;
+        location.reload();
+      }
 
-    this.getAllStudents(null);
-    this.refreshTable()
- 
+    )
   }
   onStudentClick(idStudent: number) {
     console.log(idStudent);
